@@ -39,16 +39,18 @@ namespace Ecommerce.Infrastracture
             return track ? query : query.AsNoTracking();
         }
 
-        public void Remove(T entity)
-        {                     
+        public void Remove(int id)
+        {
+            var entity = _context.Set<T>().FirstOrDefault(x => x.Id == id);                 
             _context.Set<T>().Remove(entity);
             _context.SaveChanges();            
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {           
             _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();            
+            _context.SaveChanges();  
+            return entity;
         }
 
       

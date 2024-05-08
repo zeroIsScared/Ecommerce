@@ -1,13 +1,19 @@
 ﻿
 
 using Ecommerce.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Domain.Entities
 {
     public class Property : BaseEntity
-    {       
-        public required string Title { get; set; }       
+    {
+        public Property(string title, string? description, decimal? price)
+        {
+            Title = title;
+            Description = description;
+            Price = price;
+        }
+
+        public string Title { get; set; }       
         public string? Description { get; set; }
         public decimal? Price { get; set; }
         public PropertyCategory Category { get; set; }

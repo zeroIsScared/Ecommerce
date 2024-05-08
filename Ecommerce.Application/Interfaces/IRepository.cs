@@ -8,9 +8,9 @@ namespace Ecommerce.Application.Interfaces
     {
         IQueryable<T> GetById(int id);
         T Add(T entity);
-        void Remove(T entity);
+        void Remove(int Id);
         IQueryable<T> GetAll(int pageNumber, int pageSize);
         IQueryable<T> Read(bool track = false);
-        void Update(T entity);
+        T Update(T entity);
     }
 }

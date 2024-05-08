@@ -18,14 +18,19 @@ namespace Ecommerce.Infrastructure
         public DbSet<Address> Addresses { get; set; } = default!;
         public DbSet<Locality> Localities { get; set; } = default!;
         public DbSet<District> Districts { get; set; } = default!;
+
+        public EcommerceDBContext(DbContextOptions<EcommerceDBContext> options) :
+            base(options)
+        {
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Ecommerce;Trusted_Connection=True;");
-        }
+        }*/
     }
 }
