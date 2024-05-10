@@ -18,16 +18,17 @@ namespace Ecommerce.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PropertyDto>>> GetPropreties()
+        public async Task<IActionResult> GetPropreties()
         {
             var result = await _mediator.Send(new GetListOfProperties.Query());
-            return Ok(result);
+            return HandleResult(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PropertyDto>> GetPropertyById(int id)
+        public async Task<IActionResult> GetPropertyById(int id)
         {
-            return await _mediator.Send(new GetPropertyById.Query { Id = id });
+            var result =  await _mediator.Send(new GetPropertyById.Query { Id = id });
+            return HandleResult(result);           
         }
 
         [HttpPost]

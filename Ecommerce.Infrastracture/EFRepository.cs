@@ -31,7 +31,10 @@ namespace Ecommerce.Infrastracture
                 .Take(pageSize);                           
         }
 
-        public IQueryable<T> GetById(int id) => _context.Set<T>().Where(x => x.Id == id);
+        public T GetById(int id)
+        {
+            return _context.Set<T>().FirstOrDefault(x => x.Id == id);
+        }
 
         public IQueryable<T> Read(bool track = false)
         {

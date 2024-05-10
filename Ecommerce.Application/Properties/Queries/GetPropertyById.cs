@@ -1,5 +1,7 @@
 ﻿
 
+using AutoMapper;
+using Ecommerce.Application.Core;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Property.Responses;
 using Ecommerce.Domain.Entities;
@@ -11,30 +13,26 @@ namespace Ecommerce.Application.Properties.Queries
 {
     public class GetPropertyById
     {
-        public class Query : IRequest<PropertyDto>
+        public class Query : IRequest<Result<PropertyDto>>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, PropertyDto>
+        public class Handler : IRequestHandler<Query, Result<PropertyDto>>
         {
             private readonly IRepository<Domain.Entities.Property> _repository;
-            public Handler(IRepository<Domain.Entities.Property> repository)
+            private readonly IMapper _mapper;
+
+            public Handler(IRepository<Domain.Entities.Property> repository, IMapper mapper)
             {
                 _repository = repository;
+                _mapper = mapper;
             }
-            public  async Task<PropertyDto> Handle(Query request, CancellationToken cancellationToken)
+            public   Task<Result<PropertyDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await _repository.GetById(request.Id).ToListAsync();
+                var result = _mapper.Map<PropertyDto>(_repository.GetById(request.Id));                
 
-                var property =  new PropertyDto
-                {                    
-                    Title = result[0].Title,
-                    Description = result[0].Description,
-                    Price = result[0].Price
-                };
-
-                return  property;
+                return Task.FromResult(Result<PropertyDto>.Success(result));
             }
         }
     }

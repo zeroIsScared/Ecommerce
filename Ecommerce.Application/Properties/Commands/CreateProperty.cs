@@ -1,8 +1,10 @@
 ﻿
 
+using Ecommerce.Application.Core;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Property.Responses;
 using Ecommerce.Domain.Entities;
+using FluentValidation;
 using MediatR;
 using System.Reflection;
 
@@ -14,6 +16,15 @@ namespace Ecommerce.Application.Properties.Create
         {
             public required Domain.Entities.Property RealEstate { get; set; }
         }
+
+        public class CommandValidator : AbstractValidator<PropertyDto>
+        {
+            public CommandValidator() 
+            {
+                RuleFor(x => x.Title).MaximumLength(50);
+            }
+        }
+
 
         public class Handler : IRequestHandler<Command, int>
         {
@@ -34,6 +45,7 @@ namespace Ecommerce.Application.Properties.Create
                 realEstate.CreatedBy = null;
 
                 var property = _repository.Add(realEstate);
+                
                 return Task.FromResult((int)property.Id);
             }
         }

@@ -1,34 +1,31 @@
 ﻿
+using AutoMapper;
+using Ecommerce.Application.Core;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Property.Responses;
-using Ecommerce.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Application.Properties.Queries
 {
     public class GetListOfProperties
     {
-        public class Query : IRequest<List<PropertyDto>> { }
+        public class Query : IRequest<Result<List<PropertyDto>>> { }
 
-        public class Handler : IRequestHandler<Query, List<PropertyDto>>
+        public class Handler : IRequestHandler<Query, Result<List<PropertyDto>>>
         {
             private readonly IRepository<Domain.Entities.Property> _repository;
+            private readonly IMapper _mapper;
 
-            public Handler(IRepository<Domain.Entities.Property> repository)
+            public Handler(IRepository<Domain.Entities.Property> repository, IMapper mapper)
             {
                 _repository = repository;
+                _mapper = mapper;
             }
 
-            public async  Task<List<PropertyDto>> Handle(Query request, CancellationToken cancellationToken)
+            public Task<Result<List<PropertyDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await  _repository.Read(false).Select(property => new PropertyDto
-                {                    
-                    Title = property.Title,
-                    Description = property.Description,
-                    Price = property.Price     
-
-                }).ToListAsync();
+                var result = _repository.Read(false).Select(x => _mapper.Map<PropertyDto>(x));              
+                return Task.FromResult(Result < List < PropertyDto >>.Success(result.ToList()));
             }
         }
 

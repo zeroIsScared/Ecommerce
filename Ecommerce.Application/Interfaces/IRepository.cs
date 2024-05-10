@@ -6,7 +6,7 @@ namespace Ecommerce.Application.Interfaces
 {
  public interface IRepository<T> where T: BaseEntity
     {
-        IQueryable<T> GetById(int id);
+        T GetById(int id);
         T Add(T entity);
         void Remove(int Id);
         IQueryable<T> GetAll(int pageNumber, int pageSize);
