@@ -25,7 +25,6 @@ namespace Ecommerce.Application.Properties.Create
             }
         }
 
-
         public class Handler : IRequestHandler<Command, int>
         {
             private readonly IRepository<Domain.Entities.Property> _repository;
