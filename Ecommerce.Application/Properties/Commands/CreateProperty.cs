@@ -40,8 +40,8 @@ namespace Ecommerce.Application.Properties.Create
                    request.RealEstate.Title,        
                    request.RealEstate.Description, 
                    request.RealEstate.Price);  
-                realEstate.CreatedAt = DateTimeOffset.UtcNow;
-                realEstate.CreatedBy = null;
+                /*realEstate.CreatedAt = DateTimeOffset.UtcNow;
+                realEstate.CreatedBy = null;*/
 
                 var property = _repository.Add(realEstate);
                 

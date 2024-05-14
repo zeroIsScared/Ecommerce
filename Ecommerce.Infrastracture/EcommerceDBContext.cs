@@ -1,6 +1,7 @@
 ﻿
 
 using Ecommerce.Domain.Entities;
+using Ecommerce.Infrastracture.Seeds;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -27,10 +28,9 @@ namespace Ecommerce.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
-       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Ecommerce;Trusted_Connection=True;");
-        }*/
+
+            SeedCurrencies.Seed(modelBuilder);
+        }     
+
     }
 }

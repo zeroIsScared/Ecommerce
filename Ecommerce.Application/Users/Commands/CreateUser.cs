@@ -21,8 +21,7 @@ namespace Ecommerce.Application.Users.Commands
 
             public Handler(IRepository<User> repository, IMapper mapper)
             {
-                _repository = repository;
-                _repository = repository;
+                _repository = repository;               
                 _mapper = mapper;
             }
             public Task<int> Handle(Command request, CancellationToken cancellationToken)
