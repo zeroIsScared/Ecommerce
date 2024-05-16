@@ -2,7 +2,7 @@
 using AutoMapper;
 using Ecommerce.Application.Core;
 using Ecommerce.Application.Interfaces;
-using Ecommerce.Application.Property.Responses;
+using Ecommerce.Application.Properties.Dtos.Responses;
 using MediatR;
 
 namespace Ecommerce.Application.Properties.Queries

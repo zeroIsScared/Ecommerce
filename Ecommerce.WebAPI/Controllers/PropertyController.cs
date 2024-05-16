@@ -1,9 +1,6 @@
 ﻿
 using Ecommerce.Application.Properties.Commands;
-using Ecommerce.Application.Properties.Create;
-
 using Ecommerce.Application.Properties.Queries;
-using Ecommerce.Application.Property.Responses;
 using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,21 +28,21 @@ namespace Ecommerce.WebAPI.Controllers
             return HandleResult(result);           
         }
 
-        [HttpPost]
+        [HttpPost]// return void
         public async Task<ActionResult<int>> CreateProperty(Property property)
         {
             return await _mediator.Send(new CreateProperty.Command { RealEstate = property });
             
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}")] // return void
         public async Task<ActionResult<int>> EditProperty(int id, Property property)
         {
             property.Id = id;
             return await _mediator.Send(new EditProperty.Command { Property = property });
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")] // return void
         public async Task<IActionResult> DeleteProperty(int id)
         {
             await _mediator.Send(new DeleteProperty.Command { Id = id });

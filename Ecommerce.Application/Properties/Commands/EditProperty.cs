@@ -1,12 +1,10 @@
-﻿
-
-using Ecommerce.Application.Interfaces;
+﻿using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using MediatR;
 
-namespace Ecommerce.Application.Properties.Create
+namespace Ecommerce.Application.Properties.Commands
 {
-    public class EditProperty 
+    public class EditProperty
     {
         public class Command : IRequest<int>
         {
@@ -24,12 +22,12 @@ namespace Ecommerce.Application.Properties.Create
 
             public Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                _repository.Update(request.Property); 
+                _repository.Update(request.Property);
                 var updatedId = (int)request.Property.Id;
-                return  Task.FromResult(updatedId);
+                return Task.FromResult(updatedId);
             }
         }
     }
 
-    
+
 }

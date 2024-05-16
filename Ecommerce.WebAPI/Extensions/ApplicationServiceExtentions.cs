@@ -1,6 +1,6 @@
 ﻿using Ecommerce.Application.Core.Mappings;
 using Ecommerce.Application.Interfaces;
-using Ecommerce.Application.Properties.Create;
+using Ecommerce.Application.Properties.Commands;
 using Ecommerce.Application.Properties.Queries;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastracture;

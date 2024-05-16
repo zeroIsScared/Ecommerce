@@ -27,9 +27,16 @@ namespace Ecommerce.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             SeedCurrencies.Seed(modelBuilder);
+            SeedDistricts.Seed(modelBuilder);
+            SeedLocalities.Seed(modelBuilder);
+            SeedUtilities.Seed(modelBuilder);
         }     
 
     }

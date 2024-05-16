@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Ecommerce.Application.Property.Responses;
+using Ecommerce.Application.Properties.Dtos.Responses;
 using Ecommerce.Application.Users.Dtos;
 using Ecommerce.Domain.Entities;
 
@@ -12,9 +12,7 @@ namespace Ecommerce.Application.Core.Mappings
         {
             CreateMap<Domain.Entities.Property, PropertyDto>().ReverseMap();
             CreateMap<User, GetUserDto>()
-                .ForMember(
-                destinationMember => destinationMember.Id,
-                memberOptions => memberOptions.MapFrom(x => x.Id))
+                .ForMember(dest => dest.Id,src => src.MapFrom(x => x.Id))
                 .ForMember(
                 destinationMember => destinationMember.Username,
                 memberOptions => memberOptions.MapFrom(x => x.Username))

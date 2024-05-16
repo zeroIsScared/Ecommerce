@@ -1,6 +1,6 @@
 ﻿
 
-using Ecommerce.Application.Property.Responses;
+
 
 namespace Ecommerce.Application.Users.Dtos
 {

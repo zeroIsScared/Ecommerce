@@ -1,25 +1,23 @@
-﻿
-
-using Ecommerce.Application.Core;
+﻿using Ecommerce.Application.Core;
 using Ecommerce.Application.Interfaces;
-using Ecommerce.Application.Property.Responses;
+using Ecommerce.Application.Properties.Dtos.Responses;
 using Ecommerce.Domain.Entities;
 using FluentValidation;
 using MediatR;
 using System.Reflection;
 
-namespace Ecommerce.Application.Properties.Create
+namespace Ecommerce.Application.Properties.Commands
 {
     public class CreateProperty
     {
         public class Command : IRequest<int>
         {
-            public required Domain.Entities.Property RealEstate { get; set; }
+            public required Property RealEstate { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<PropertyDto>
         {
-            public CommandValidator() 
+            public CommandValidator()
             {
                 RuleFor(x => x.Title).MaximumLength(50);
             }
@@ -29,7 +27,7 @@ namespace Ecommerce.Application.Properties.Create
         {
             private readonly IRepository<Domain.Entities.Property> _repository;
 
-            public Handler( IRepository<Domain.Entities.Property> repository)
+            public Handler(IRepository<Domain.Entities.Property> repository)
             {
                 _repository = repository;
             }
@@ -37,14 +35,14 @@ namespace Ecommerce.Application.Properties.Create
             public Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
                 var realEstate = new Domain.Entities.Property(
-                   request.RealEstate.Title,        
-                   request.RealEstate.Description, 
-                   request.RealEstate.Price);  
+                   request.RealEstate.Title,
+                   request.RealEstate.Description,
+                   request.RealEstate.Price);
                 /*realEstate.CreatedAt = DateTimeOffset.UtcNow;
                 realEstate.CreatedBy = null;*/
 
                 var property = _repository.Add(realEstate);
-                
+
                 return Task.FromResult((int)property.Id);
             }
         }
