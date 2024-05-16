@@ -20,9 +20,9 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
             builder.Property(x => x.Price)
                 .IsRequired();
 
-            builder.HasOne(s => s.Currency)
+            /*builder.HasOne(s => s.Currency)
                 .WithMany(g => g.Properties)
-                .HasForeignKey(s => s.CurrencyId);
+                .HasForeignKey(s => s.CurrencyId);*/
 
             builder.HasOne(s => s.User)
                 .WithMany(g => g.Properties)
