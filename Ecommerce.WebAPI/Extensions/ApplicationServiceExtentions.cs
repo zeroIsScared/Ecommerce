@@ -26,6 +26,7 @@ namespace Ecommerce.WebAPI.Extensions
                 options.UseSqlServer(config.GetConnectionString("Default"));
             });
             services.AddTransient<IRepository<Property>, EFRepository<Property>>();
+            services.AddTransient<IRepository<User>, EFRepository<User>>();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateProperty>();

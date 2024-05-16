@@ -5,7 +5,7 @@ namespace Ecommerce.Domain.Entities
     {
         public long Id { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
-        public string CreatedBy { get; set; } = "Admin";
+        public string CreatedBy { get; set; } = "Adm";
 
     }
 }

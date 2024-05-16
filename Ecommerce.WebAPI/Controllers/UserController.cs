@@ -44,7 +44,7 @@ namespace Ecommerce.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _mediator.Send(new RemoveUser.Command { Id = id });
+            await _mediator.Send(new DeleteUser.Command { Id = id });
             return Ok();
         }
 

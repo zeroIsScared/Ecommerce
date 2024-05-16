@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Infrastracture.Migrations
 {
     [DbContext(typeof(EcommerceDBContext))]
-    [Migration("20240418174907_EcommerceMigration")]
-    partial class EcommerceMigration
+    [Migration("20240516034510_Initial migration")]
+    partial class Initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,8 +38,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("HouseNumber")
                         .HasMaxLength(5)
@@ -77,8 +77,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Symbol")
                         .HasMaxLength(5)
@@ -87,6 +87,31 @@ namespace Ecommerce.Infrastracture.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Currencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Code = "MDL",
+                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Code = "EUR",
+                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "Admin",
+                            Symbol = "€"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Code = "USD",
+                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "Admin",
+                            Symbol = "$"
+                        });
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.District", b =>
@@ -102,8 +127,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -128,8 +153,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("DistrictId")
                         .HasColumnType("bigint");
@@ -169,8 +194,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("CurrencyId")
                         .HasColumnType("bigint");
@@ -226,8 +251,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Floor")
                         .HasMaxLength(2)
@@ -280,8 +305,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("PropertyId")
                         .HasColumnType("bigint");
@@ -315,8 +340,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("PropertyId")
                         .HasColumnType("bigint");
@@ -346,8 +371,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -377,8 +402,8 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("PropertyId")
                         .HasColumnType("bigint");
@@ -444,7 +469,7 @@ namespace Ecommerce.Infrastracture.Migrations
                     b.HasOne("Ecommerce.Domain.Entities.District", "District")
                         .WithMany("Localities")
                         .HasForeignKey("DistrictId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("District");

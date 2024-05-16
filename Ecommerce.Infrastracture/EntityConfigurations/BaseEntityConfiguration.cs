@@ -10,7 +10,7 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
     {
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
-            builder.Property(x => x.CreatedBy).HasMaxLength(EntityConstants.MaxCodeLength);
+            builder.Property(x => x.CreatedBy).HasMaxLength(EntityConstants.MaxNameLength);
         }
     }
 }

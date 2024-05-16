@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ecommerce.Application.Users.Commands
 {
-    public class RemoveUser
+    public class DeleteUser
     {
         public class Command : IRequest
         {

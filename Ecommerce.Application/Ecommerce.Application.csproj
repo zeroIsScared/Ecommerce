@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AppDesignerFolder>Property</AppDesignerFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\Dtos\Requests\" />
+    <Folder Include="Property\Dtos\Requests\" />
     <Folder Include="Users\Mappings\" />
   </ItemGroup>
 

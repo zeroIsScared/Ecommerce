@@ -29,7 +29,7 @@ namespace Ecommerce.Application.Users.Queries
 
             public Task<Result<GetUserDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result =  _mapper.Map<GetUserDto>(_repository.GetById(request.Id));
+                var result = _mapper.Map<GetUserDto>(_repository.GetById(request.Id));
                 return Task.FromResult(Result<GetUserDto>.Success(result));
             }
         }

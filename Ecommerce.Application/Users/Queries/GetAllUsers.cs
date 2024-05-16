@@ -9,7 +9,7 @@ namespace Ecommerce.Application.Users.Queries
 {
     public class GetAllUsers
     {
-        public class Query : IRequest<Result<List<GetUserDto>>> {}
+        public class Query : IRequest<Result<List<GetUserDto>>> { }
 
         public class Handler : IRequestHandler<Query, Result<List<GetUserDto>>>
         {
