@@ -1,6 +1,7 @@
 ﻿
 
 using Ecommerce.Application.Interfaces;
+using Ecommerce.Domain.Entities;
 using MediatR;
 
 namespace Ecommerce.Application.Properties.Commands
@@ -13,9 +14,9 @@ namespace Ecommerce.Application.Properties.Commands
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly IRepository<Domain.Entities.Property> _repository;
+            private readonly IRepository<Property> _repository;
 
-            public Handler(IRepository<Domain.Entities.Property> repository)
+            public Handler(IRepository<Property> repository)
             {
                 _repository = repository;
             }

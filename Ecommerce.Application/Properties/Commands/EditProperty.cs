@@ -8,14 +8,14 @@ namespace Ecommerce.Application.Properties.Commands
     {
         public class Command : IRequest<int>
         {
-            public required Domain.Entities.Property Property { get; set; }
+            public required Property Property { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, int>
         {
-            private readonly IRepository<Domain.Entities.Property> _repository;
+            private readonly IRepository<Property> _repository;
 
-            public Handler(IRepository<Domain.Entities.Property> repository)
+            public Handler(IRepository<Property> repository)
             {
                 _repository = repository;
             }

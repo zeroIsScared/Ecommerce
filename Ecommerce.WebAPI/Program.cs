@@ -1,4 +1,5 @@
 using Ecommerce.WebAPI.Extensions;
+using Ecommerce.WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseTiming();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

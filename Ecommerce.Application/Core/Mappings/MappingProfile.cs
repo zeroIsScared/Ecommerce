@@ -10,23 +10,11 @@ namespace Ecommerce.Application.Core.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<Domain.Entities.Property, PropertyDto>().ReverseMap();
-            CreateMap<User, GetUserDto>()
-                .ForMember(dest => dest.Id,src => src.MapFrom(x => x.Id))
-                .ForMember(
-                destinationMember => destinationMember.Username,
-                memberOptions => memberOptions.MapFrom(x => x.Username))
-                .ForMember(
-                destinationMember => destinationMember.PhoneNumber,
-                memberOptions => memberOptions.MapFrom(x => x.PhoneNumber));
-
-            CreateMap<CreateUserDto, User>()
-                .ForMember(
-                destinationMember => destinationMember.Username,
-                memberOptions => memberOptions.MapFrom(x => x.Username))
-                .ForMember(
-                destinationMember => destinationMember.PhoneNumber,
-                memberOptions => memberOptions.MapFrom(x => x.PhoneNumber));
+            CreateMap<Property, GetPropertyDto>().ReverseMap();
+            CreateMap<User, GetUserDto>().ReverseMap();
+            CreateMap<User, GetUserDto>().ReverseMap();
+            CreateMap<User, EditUserDto>().ReverseMap();
+            CreateMap<User, CreateUserDto>().ReverseMap();
         }
     }
 }
