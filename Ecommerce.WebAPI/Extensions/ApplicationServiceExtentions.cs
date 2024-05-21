@@ -5,6 +5,7 @@ using Ecommerce.Application.Properties.Queries;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastracture;
 using Ecommerce.Infrastructure;
+using Ecommerce.WebAPI.Exceptions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,8 @@ namespace Ecommerce.WebAPI.Extensions
 {
     public static class ApplicationServiceExtentions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, 
-            IConfiguration config) 
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services,
+            IConfiguration config)
         {
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,30 +36,31 @@ namespace Ecommerce.WebAPI.Extensions
                 });
 
                 opt.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type=ReferenceType.SecurityScheme,
+                            Id="Bearer"
+                        }
+                    },
+                    new string[]{}
                 }
-            },
-            new string[]{}
-        }
-    });
             });
+            });
+            services.AddExceptionHandler<AppExceptionHandler>();
             services.AddDbContext<EcommerceDBContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("Default"));
-            });            
-            services.AddAuthorization();           
+            });
+            services.AddAuthorization();
             services.AddTransient<IRepository<Property>, EFRepository<Property>>();
             services.AddTransient<IRepository<User>, EFRepository<User>>();
             services.AddTransient<IRepository<PropertyDetail>, EFRepository<PropertyDetail>>();
             services.AddTransient<IRepository<PropertyUtility>, EFRepository<PropertyUtility>>();
-            services.AddTransient<IRepository<UserFavorite>, EFRepository<UserFavorite>>();         
+            services.AddTransient<IRepository<UserFavorite>, EFRepository<UserFavorite>>();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateProperty>();

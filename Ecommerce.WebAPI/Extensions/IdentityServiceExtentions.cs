@@ -10,8 +10,8 @@ namespace Ecommerce.WebAPI.Extensions
 {
     public static class IdentityServiceExtentions
     {
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services, 
-            IConfiguration config) 
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services,
+            IConfiguration config)
         {
             services.AddIdentityCore<ApplicationUser>(opt =>
             {
