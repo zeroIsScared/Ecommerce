@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.WebAPI.Controllers
 {
-    public class UserController : BaseAPIController
+    public class UsersController : BaseAPIController
     {
-        public UserController(IMediator mediator) : base(mediator)
+        public UsersController(IMediator mediator) : base(mediator)
         {
         }
 
@@ -28,23 +28,23 @@ namespace Ecommerce.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateUser(CreateUserDto user)
+        public async Task<ActionResult<int>> CreateUser(AddOrEditUserDto user)
         {
             return await _mediator.Send(new CreateUser.Command { User = user });
 
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<int>> EditUser(int id, EditUserDto user)
+        [HttpPut]
+        public async Task<ActionResult<int>> EditUser( AddOrEditUserDto user)
         {
-            user.Id = id;
+            
             return await _mediator.Send(new EditUser.Command { User = user });
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _mediator.Send(new DeleteUser.Command { Id = id });
+            await _mediator.Send(new DeleteUser.Command {UserId = id });
             return Ok();
         }
 

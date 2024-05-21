@@ -1,4 +1,4 @@
-﻿
+﻿/*
 
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastracture.Constants;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ecommerce.Infrastracture.EntityConfigurations
 {
-    internal class UserConfiguration : BaseEntityConfiguration<User> 
+    internal class UserConfiguration 
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {
@@ -20,4 +20,4 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
         }
 
     }
-}
+}*/

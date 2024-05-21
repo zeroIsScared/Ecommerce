@@ -5,14 +5,7 @@ using Ecommerce.Domain.Enums;
 namespace Ecommerce.Domain.Entities
 {
     public class Property : BaseEntity
-    {
-        public Property(string title, string? description, decimal? price)
-        {
-            Title = title;
-            Description = description;
-            Price = price;
-        }
-        
+    {               
         public string Title { get; set; }       
         public string? Description { get; set; }
         public decimal? Price { get; set; }

@@ -6,9 +6,9 @@ namespace Ecommerce.Application.Interfaces
 {
     public interface IUnitOfWork
     {
-        Task SaveAsync();
-        Task BeginTransactionAsync();
-        Task CommitTransactionAsync();
-        Task RollBackAsync();
+        Task SaveAsync(CancellationToken cancellationToken = default);
+        Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+        Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+        Task RollBackAsync(CancellationToken cancellationToken = default);
     }
 }

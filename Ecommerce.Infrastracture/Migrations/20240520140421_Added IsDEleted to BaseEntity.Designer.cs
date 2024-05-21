@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Infrastracture.Migrations
 {
     [DbContext(typeof(EcommerceDBContext))]
-    [Migration("20240516142928_Initial")]
-    partial class Initial
+    [Migration("20240520140421_Added IsDEleted to BaseEntity")]
+    partial class AddedIsDEletedtoBaseEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace Ecommerce.Infrastracture.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<long>("LocalityId")
                         .HasColumnType("bigint");
 
@@ -57,6 +60,71 @@ namespace Ecommerce.Infrastracture.Migrations
                     b.HasIndex("LocalityId");
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Currency", b =>
@@ -80,6 +148,9 @@ namespace Ecommerce.Infrastracture.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Symbol")
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
@@ -93,23 +164,26 @@ namespace Ecommerce.Infrastracture.Migrations
                         {
                             Id = 1L,
                             Code = "MDL",
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "Admin"
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 373, DateTimeKind.Unspecified).AddTicks(2419), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedBy = "Admin",
+                            IsDeleted = false
                         },
                         new
                         {
                             Id = 2L,
                             Code = "EUR",
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 387, DateTimeKind.Unspecified).AddTicks(6040), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Symbol = "€"
                         },
                         new
                         {
                             Id = 3L,
                             Code = "USD",
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 387, DateTimeKind.Unspecified).AddTicks(6173), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Symbol = "$"
                         });
                 });
@@ -130,6 +204,9 @@ namespace Ecommerce.Infrastracture.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -143,253 +220,289 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(3827), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Mun. Chișinău"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4013), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Mun. Bălți"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4025), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Mun. Bender"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4027), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Anenii Noi"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4028), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Basarabeasca"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4038), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Briceni"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4039), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Cahul"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4040), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Camenca"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4042), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Călărași"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4044), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Cantemir"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4045), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Căușeni"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4046), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Cimișlia"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4048), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Criuleni"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4049), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Dondușeni"
                         },
                         new
                         {
                             Id = 15L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4050), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Drochia"
                         },
                         new
                         {
                             Id = 16L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4051), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Dubăsari"
                         },
                         new
                         {
                             Id = 17L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4053), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Edineț"
                         },
                         new
                         {
                             Id = 18L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4055), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Fălești"
                         },
                         new
                         {
                             Id = 19L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4056), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Florești"
                         },
                         new
                         {
                             Id = 20L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4057), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Glodeni"
                         },
                         new
                         {
                             Id = 21L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4059), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Hîncești"
                         },
                         new
                         {
                             Id = 22L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4060), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Ialoveni"
                         },
                         new
                         {
                             Id = 23L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4061), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Leova"
                         },
                         new
                         {
                             Id = 24L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4063), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Nisporeni"
                         },
                         new
                         {
                             Id = 25L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4064), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Ocnița"
                         },
                         new
                         {
                             Id = 26L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4065), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Orhei"
                         },
                         new
                         {
                             Id = 27L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4066), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Rezina"
                         },
                         new
                         {
                             Id = 28L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4068), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Rîșcani"
                         },
                         new
                         {
                             Id = 29L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4069), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Sîngerei"
                         },
                         new
                         {
                             Id = 30L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4070), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Soroca"
                         },
                         new
                         {
                             Id = 31L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4072), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Strășeni"
                         },
                         new
                         {
                             Id = 32L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4073), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Șoldănești"
                         },
                         new
                         {
                             Id = 33L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4074), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Ștefan Vodă"
                         },
                         new
                         {
                             Id = 34L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4076), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Taraclia"
                         },
                         new
                         {
                             Id = 35L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4077), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Telenești"
                         },
                         new
                         {
                             Id = 36L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 388, DateTimeKind.Unspecified).AddTicks(4079), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
+                            IsDeleted = false,
                             Name = "Ungheni"
                         });
                 });
@@ -413,6 +526,9 @@ namespace Ecommerce.Infrastracture.Migrations
                     b.Property<long>("DistrictId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -432,681 +548,766 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3239), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Băcioi"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3508), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Bîc"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3511), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Brăila"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3512), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Bubuieci"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3514), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Budești"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3517), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Buneți"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3519), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Ceroborta"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3520), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Cheltuitori"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3522), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Chișinău"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3523), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Ciorescu"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3525), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Codru"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3526), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Colonița"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3528), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Condrița"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3529), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Cricova"
                         },
                         new
                         {
                             Id = 15L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3531), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Cruzești"
                         },
                         new
                         {
                             Id = 16L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3532), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Dobrogea"
                         },
                         new
                         {
                             Id = 17L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3533), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Dumbrava"
                         },
                         new
                         {
                             Id = 18L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3536), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Durlești"
                         },
                         new
                         {
                             Id = 19L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3537), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Făurești"
                         },
                         new
                         {
                             Id = 20L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3538), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Frumușica"
                         },
                         new
                         {
                             Id = 21L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3540), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Ghidighici"
                         },
                         new
                         {
                             Id = 22L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3541), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Goian"
                         },
                         new
                         {
                             Id = 23L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3542), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Goianul Nou"
                         },
                         new
                         {
                             Id = 24L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3544), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Grătiești"
                         },
                         new
                         {
                             Id = 25L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3545), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Hulboaca"
                         },
                         new
                         {
                             Id = 26L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3546), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Humulești"
                         },
                         new
                         {
                             Id = 27L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3548), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Revaca"
                         },
                         new
                         {
                             Id = 28L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3549), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Stăuceni"
                         },
                         new
                         {
                             Id = 29L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3551), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Străisteni"
                         },
                         new
                         {
                             Id = 30L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3552), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Sîngera"
                         },
                         new
                         {
                             Id = 31L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3554), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Tohatin"
                         },
                         new
                         {
                             Id = 32L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3555), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Trușeni"
                         },
                         new
                         {
                             Id = 33L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3562), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Vadul lui Vodă"
                         },
                         new
                         {
                             Id = 34L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3564), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Vatra"
                         },
                         new
                         {
                             Id = 35L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3566), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
+                            IsDeleted = false,
                             Name = "Văduleni"
                         },
                         new
                         {
                             Id = 36L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3567), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 2L,
+                            IsDeleted = false,
                             Name = "Bălți"
                         },
                         new
                         {
                             Id = 37L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3569), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 2L,
+                            IsDeleted = false,
                             Name = "Elizaveta"
                         },
                         new
                         {
                             Id = 38L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3570), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 2L,
+                            IsDeleted = false,
                             Name = "Sadovoe"
                         },
                         new
                         {
                             Id = 39L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3572), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 3L,
+                            IsDeleted = false,
                             Name = "Bender"
                         },
                         new
                         {
                             Id = 40L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3573), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 3L,
+                            IsDeleted = false,
                             Name = "Proteagailovca"
                         },
                         new
                         {
                             Id = 41L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3574), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Albinița"
                         },
                         new
                         {
                             Id = 42L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3576), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Anenii Noi"
                         },
                         new
                         {
                             Id = 43L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3577), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Balmaz"
                         },
                         new
                         {
                             Id = 44L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3579), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Batîc"
                         },
                         new
                         {
                             Id = 45L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3580), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Beriozchi"
                         },
                         new
                         {
                             Id = 46L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3582), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Botnărești"
                         },
                         new
                         {
                             Id = 47L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3583), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Botnăreștii Noi"
                         },
                         new
                         {
                             Id = 48L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3584), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Bulboaca"
                         },
                         new
                         {
                             Id = 49L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3586), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Calfa"
                         },
                         new
                         {
                             Id = 50L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3587), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Calfa Nouă"
                         },
                         new
                         {
                             Id = 51L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3588), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Chetrosu"
                         },
                         new
                         {
                             Id = 52L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3590), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Chirca"
                         },
                         new
                         {
                             Id = 53L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3591), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Ciobanovca"
                         },
                         new
                         {
                             Id = 54L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3593), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Cobusca Nouă"
                         },
                         new
                         {
                             Id = 55L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3594), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Cobusca Veche"
                         },
                         new
                         {
                             Id = 56L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3595), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Crețoaia"
                         },
                         new
                         {
                             Id = 57L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3597), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Delacău"
                         },
                         new
                         {
                             Id = 58L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3598), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Floreni"
                         },
                         new
                         {
                             Id = 59L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3599), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Florești"
                         },
                         new
                         {
                             Id = 60L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3601), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Geamăna"
                         },
                         new
                         {
                             Id = 61L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3602), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Gura Bîcului"
                         },
                         new
                         {
                             Id = 62L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3604), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Hîrbovăț"
                         },
                         new
                         {
                             Id = 63L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3605), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Hîrbovățul Nou"
                         },
                         new
                         {
                             Id = 64L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3606), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Larga"
                         },
                         new
                         {
                             Id = 65L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3608), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Maximovca"
                         },
                         new
                         {
                             Id = 66L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3626), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Mereni"
                         },
                         new
                         {
                             Id = 67L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3628), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Merenii Noi"
                         },
                         new
                         {
                             Id = 68L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3629), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Mirnoe"
                         },
                         new
                         {
                             Id = 69L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3631), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Nicolaevca"
                         },
                         new
                         {
                             Id = 70L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3632), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Ochiul Roș"
                         },
                         new
                         {
                             Id = 71L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3633), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Picus"
                         },
                         new
                         {
                             Id = 72L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3635), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Puhăceni"
                         },
                         new
                         {
                             Id = 73L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3636), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Roșcani"
                         },
                         new
                         {
                             Id = 74L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3638), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Ruseni"
                         },
                         new
                         {
                             Id = 75L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3639), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Salcia"
                         },
                         new
                         {
                             Id = 76L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3640), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Socoleni"
                         },
                         new
                         {
                             Id = 77L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3642), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Speia"
                         },
                         new
                         {
                             Id = 78L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3643), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Șerpeni"
                         },
                         new
                         {
                             Id = 79L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3645), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Telița"
                         },
                         new
                         {
                             Id = 80L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3646), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Telița Nouă"
                         },
                         new
                         {
                             Id = 81L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3647), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Todirești"
                         },
                         new
                         {
                             Id = 82L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3649), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Troița Nouă"
                         },
                         new
                         {
                             Id = 83L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3650), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Țînțăreni"
                         },
                         new
                         {
                             Id = 84L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3652), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Varnița"
                         },
                         new
                         {
                             Id = 85L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(3653), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
+                            IsDeleted = false,
                             Name = "Zolotievca"
                         });
                 });
@@ -1140,9 +1341,12 @@ namespace Ecommerce.Infrastracture.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<decimal?>("Price")
                         .IsRequired()
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -1198,6 +1402,9 @@ namespace Ecommerce.Infrastracture.Migrations
                         .HasMaxLength(2)
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("LandType")
                         .HasMaxLength(50)
                         .HasColumnType("int");
@@ -1244,6 +1451,9 @@ namespace Ecommerce.Infrastracture.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<long>("PropertyId")
                         .HasColumnType("bigint");
 
@@ -1279,6 +1489,9 @@ namespace Ecommerce.Infrastracture.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<long>("PropertyId")
                         .HasColumnType("bigint");
 
@@ -1307,18 +1520,18 @@ namespace Ecommerce.Infrastracture.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1340,6 +1553,9 @@ namespace Ecommerce.Infrastracture.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<long>("PropertyId")
                         .HasColumnType("bigint");
@@ -1380,6 +1596,9 @@ namespace Ecommerce.Infrastracture.Migrations
                     b.Property<bool>("ForLand")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1392,153 +1611,301 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(6759), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Ready for entry"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7088), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Furnished"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7091), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Air conditioning"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7093), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Internet"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7094), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Video surveillance"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7098), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Autonomous heating"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7099), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Double-glazed windows"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7101), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Sauna"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7102), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Swimming pool"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7104), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = false,
                             ForLand = false,
+                            IsDeleted = false,
                             Name = "Elevator"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7106), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
                             ForLand = true,
+                            IsDeleted = false,
                             Name = "Gas"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7175), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
                             ForLand = true,
+                            IsDeleted = false,
                             Name = "Electricity"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7177), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
                             ForLand = true,
+                            IsDeleted = false,
                             Name = "Water"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7179), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
                             ForLand = true,
+                            IsDeleted = false,
                             Name = "Sewerage"
                         },
                         new
                         {
                             Id = 15L,
-                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 20, 17, 4, 21, 389, DateTimeKind.Unspecified).AddTicks(7180), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
                             ForLand = true,
+                            IsDeleted = false,
                             Name = "Asphalt road"
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Address", b =>
@@ -1648,6 +2015,57 @@ namespace Ecommerce.Infrastracture.Migrations
                     b.Navigation("Property");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Address", b =>

@@ -12,7 +12,7 @@ namespace Ecommerce.Application.Users.Commands
     {
         public class Command : IRequest<int>
         {
-            public required EditUserDto User { get; set; }
+            public required AddOrEditUserDto User { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, int>

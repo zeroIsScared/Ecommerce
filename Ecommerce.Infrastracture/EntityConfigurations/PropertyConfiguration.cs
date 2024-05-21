@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastracture.Constants;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
@@ -18,7 +19,8 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
                 .HasMaxLength(EntityConstants.MaxDescriptionLength);
 
             builder.Property(x => x.Price)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnType("decimal");
 
             /*builder.HasOne(s => s.Currency)
                 .WithMany(g => g.Properties)

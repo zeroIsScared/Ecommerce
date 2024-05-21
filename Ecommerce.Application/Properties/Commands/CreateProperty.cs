@@ -1,9 +1,14 @@
 ﻿
+using AutoMapper;
+using Azure;
 using Ecommerce.Application.Interfaces;
-using Ecommerce.Application.Properties.Dtos.Responses;
+using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Domain.Entities;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.Text.Json;
 
 namespace Ecommerce.Application.Properties.Commands
 {
@@ -11,7 +16,7 @@ namespace Ecommerce.Application.Properties.Commands
     {
         public class Command : IRequest<int>
         {
-            public required Property RealEstate { get; set; }
+            public required GetPropertyDto RealEstate { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<GetPropertyDto>
@@ -25,24 +30,36 @@ namespace Ecommerce.Application.Properties.Commands
         public class Handler : IRequestHandler<Command, int>
         {
             private readonly IRepository<Property> _repository;
+            private readonly IMapper _mapper;
+            private readonly ILogger<Command> _logger;
 
-            public Handler(IRepository<Property> repository)
+            public Handler(IRepository<Property> repository, IMapper mapper, ILogger<Command> logger)
             {
                 _repository = repository;
+                _mapper = mapper;
+                _logger = logger;
             }
 
-            public Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                var realEstate = new Property(
-                   request.RealEstate.Title,
-                   request.RealEstate.Description,
-                   request.RealEstate.Price);
+                var realEstate = _mapper.Map<Property>(request.RealEstate);
                 /*realEstate.CreatedAt = DateTimeOffset.UtcNow;
                 realEstate.CreatedBy = null;*/
 
-                var property = _repository.Add(realEstate);
+                var property =  _repository.Add(realEstate);
+                var requestName = request.GetType().Name;
+                var requestGuid = Guid.NewGuid().ToString();
 
-                return Task.FromResult((int)property.Id);
+                var requestNameWithGuid = $"{requestName} [{requestGuid}]";
+
+                _logger.LogInformation($"[START] {requestNameWithGuid}");
+          
+
+              
+
+               
+
+                return await Task.FromResult((int)property.Id);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿
 using Ecommerce.Application.Properties.Commands;
+using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Application.Properties.Queries;
 using Ecommerce.Domain.Entities;
 using MediatR;
@@ -8,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecommerce.WebAPI.Controllers
 {
 
-    public class PropertyController : BaseAPIController
+    public class PropertiesController : BaseAPIController
     {
-        public PropertyController( IMediator mediator) : base( mediator)
+        public PropertiesController( IMediator mediator) : base( mediator)
         {
         }
 
@@ -28,8 +29,16 @@ namespace Ecommerce.WebAPI.Controllers
             return HandleResult(result);           
         }
 
+        [HttpGet("category/{id}")]
+        public async Task<IActionResult> GetPropertiesByCategoryId(int id)
+        {
+            var result = await _mediator.Send(new GetPropertyListByCategoryId.Query { Id = id });
+            return HandleResult(result);
+        }
+
+
         [HttpPost]// return void
-        public async Task<ActionResult<int>> CreateProperty(Property property)
+        public async Task<ActionResult<int>> CreateProperty(GetPropertyDto property)
         {
             return await _mediator.Send(new CreateProperty.Command { RealEstate = property });
             

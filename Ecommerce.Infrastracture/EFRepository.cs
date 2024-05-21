@@ -36,9 +36,9 @@ namespace Ecommerce.Infrastracture
             return _context.Set<T>().FirstOrDefault(x => x.Id == id);
         }
 
-        public IQueryable<T> Read(bool track = false)
+        public IQueryable<T> Read(bool track = false, bool filterDeleted = true)
         {
-            var query = _context.Set<T>().AsQueryable();
+            var query = _context.Set<T>().Where(x => x.IsDeleted == filterDeleted).AsQueryable();
             return track ? query : query.AsNoTracking();
         }
 
