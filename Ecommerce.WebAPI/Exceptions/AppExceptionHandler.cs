@@ -6,7 +6,10 @@ namespace Ecommerce.WebAPI.Exceptions
 {
     public class AppExceptionHandler : IExceptionHandler
     {
-        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+        public async ValueTask<bool> TryHandleAsync(
+            HttpContext httpContext, 
+            Exception exception, 
+            CancellationToken cancellationToken)
         {
             var response = new ErrorResponse()
             {
@@ -15,8 +18,9 @@ namespace Ecommerce.WebAPI.Exceptions
                 Message = exception.Message
             };
 
-            await httpContext.Response.WriteAsJsonAsync("Something went wrong");
+            
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);
 
             return true;
         }
