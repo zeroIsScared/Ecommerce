@@ -37,6 +37,8 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
 
             builder.Property(x => x.LandType)
              .HasMaxLength(EntityConstants.MaxNameLength);
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
 
     }

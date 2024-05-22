@@ -1,4 +1,4 @@
-﻿/*
+﻿
 
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastracture.Constants;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ecommerce.Infrastracture.EntityConfigurations
 {
-    internal class UserConfiguration 
+    internal class UserConfiguration : BaseEntityConfiguration<User>
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {
@@ -18,6 +18,5 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
             builder.Property(x => x.PhoneNumber)
                 .IsRequired().HasMaxLength(30);
         }
-
     }
-}*/
+}

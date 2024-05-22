@@ -13,12 +13,12 @@ namespace Ecommerce.Application.Properties.Queries
 {
     public class GetPropertyById
     {
-        public class Query : IRequest<Result<GetPropertyDto>>
+        public class Query : IRequest<GetPropertyDto>
         {
-            public int Id { get; set; }
+            public long Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<GetPropertyDto>>
+        public class Handler : IRequestHandler<Query, GetPropertyDto>
         {
             private readonly IRepository<Property> _repository;
             private readonly IMapper _mapper;
@@ -28,11 +28,12 @@ namespace Ecommerce.Application.Properties.Queries
                 _repository = repository;
                 _mapper = mapper;
             }
-            public   Task<Result<GetPropertyDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<GetPropertyDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = _mapper.Map<GetPropertyDto>(_repository.GetById(request.Id));                
+                var property = await _repository.TryGetByIdOrThrowAsync(request.Id, cancellationToken);
+                var result = _mapper.Map<GetPropertyDto>(property);                
 
-                return Task.FromResult(Result<GetPropertyDto>.Success(result));
+                return result;
             }
         }
     }

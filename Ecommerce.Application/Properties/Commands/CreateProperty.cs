@@ -46,19 +46,9 @@ namespace Ecommerce.Application.Properties.Commands
                 /*realEstate.CreatedAt = DateTimeOffset.UtcNow;
                 realEstate.CreatedBy = null;*/
 
-                var property =  _repository.Add(realEstate);
-                var requestName = request.GetType().Name;
-                var requestGuid = Guid.NewGuid().ToString();
-
-                var requestNameWithGuid = $"{requestName} [{requestGuid}]";
-
-                _logger.LogInformation($"[START] {requestNameWithGuid}");
-          
-
+                var property =  await _repository.AddAsync(realEstate, cancellationToken);
+                var requestName = request.GetType().Name;        
               
-
-               
-
                 return await Task.FromResult((int)property.Id);
             }
         }

@@ -1,5 +1,6 @@
 ﻿
 
+using Ecommerce.Application.Exceptions;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastructure;
@@ -17,10 +18,19 @@ namespace Ecommerce.Infrastracture
             _context = context;
         }
 
-        public T Add(T entity)
+        public async Task<bool> ExistsOrThrowsAsync(long id, CancellationToken cancellationToken = default)
         {
-            _context.Set<T>().Add(entity);
-            _context.SaveChanges();
+            var result = await _context.Set<T>().AnyAsync(x => x.Id == id, cancellationToken);
+
+            if (result is false)
+                throw new EntityNotFoundException(typeof(T), id);
+
+            return true;
+        }
+        public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            await _context.Set<T>().AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
             return entity;       
         }
 
@@ -31,31 +41,58 @@ namespace Ecommerce.Infrastracture
                 .Take(pageSize);                           
         }
 
-        public T GetById(int id)
+        public IQueryable<T> Read( bool track = false )
         {
-            return _context.Set<T>().FirstOrDefault(x => x.Id == id);
-        }
-
-        public IQueryable<T> Read(bool track = false, bool filterDeleted = true)
-        {
-            var query = _context.Set<T>().Where(x => x.IsDeleted == filterDeleted).AsQueryable();
+            var query = _context.Set<T>().AsQueryable();            
             return track ? query : query.AsNoTracking();
         }
 
-        public void Remove(int id)
+        public async Task RemoveAsync(long id, CancellationToken cancellationToken = default)
         {
-            var entity = _context.Set<T>().FirstOrDefault(x => x.Id == id);                 
+            var entity = await _context.Set<T>().FirstAsync(x => x.Id == id);
             _context.Set<T>().Remove(entity);
-            _context.SaveChanges();            
+            await _context.SaveChangesAsync(cancellationToken);            
         }
 
-        public T Update(T entity)
+        public async Task RemoveRangeAsync(List<T> removeList, CancellationToken cancellationToken = default)
+        {
+            _context.Set<T>().RemoveRange(removeList);
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task SoftRemoveAsync(long id, CancellationToken cancellationToken = default)
+        {
+            var entity = await _context.Set<T>().FirstAsync(x => x.Id == id);
+            entity.IsDeleted = true;
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task SoftRemoveRangeAsync(List<T> removeList, CancellationToken cancellationToken = default)
+        {
+            foreach (var item in removeList)
+            {
+                item.IsDeleted = true;
+            }
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {           
             _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();  
+            await _context.SaveChangesAsync(cancellationToken);  
+            return entity;
+        }        
+
+        public async Task<T> TryGetByIdOrThrowAsync(long id, CancellationToken cancellationToken = default) 
+        {
+            var entity = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+            if (entity == default)
+                throw EntityNotFoundException.OfType<T>(id);
+
             return entity;
         }
-
-      
     }
 }

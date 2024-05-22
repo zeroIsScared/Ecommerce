@@ -12,10 +12,7 @@ namespace Ecommerce.Application.Core.Mappings
         public MappingProfile()
         {
             CreateMap<Property, GetPropertyDto>().ReverseMap();
-            CreateMap<User, GetUserDto>().ReverseMap();
-            CreateMap<User, GetUserDto>().ReverseMap();
-            CreateMap<User, AddOrEditUserDto>().ReverseMap();
-            CreateMap<User, AddOrEditUserDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();                 
             CreateMap<UserFavorite, GetUserFavoritesDto>().ReverseMap();
         }
     }

@@ -19,40 +19,40 @@ namespace Ecommerce.WebAPI.Controllers
         public async Task<IActionResult> GetPropreties()
         {
             var result = await _mediator.Send(new GetListOfProperties.Query());
-            return HandleResult(result);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPropertyById(int id)
+        public async Task<IActionResult> GetPropertyById(long id)
         {
             var result =  await _mediator.Send(new GetPropertyById.Query { Id = id });
-            return HandleResult(result);           
+            return Ok(result);           
         }
 
         [HttpGet("category/{id}")]
         public async Task<IActionResult> GetPropertiesByCategoryId(int id)
         {
             var result = await _mediator.Send(new GetPropertyListByCategoryId.Query { Id = id });
-            return HandleResult(result);
+            return Ok(result);
         }
 
 
-        [HttpPost]// return void
-        public async Task<ActionResult<int>> CreateProperty(GetPropertyDto property)
+        [HttpPost]
+        public async Task<ActionResult<long>> CreateProperty(GetPropertyDto property)
         {
             return await _mediator.Send(new CreateProperty.Command { RealEstate = property });
             
         }
 
-        [HttpPut("{id}")] // return void
-        public async Task<ActionResult<int>> EditProperty(int id, Property property)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<long>> EditProperty(long id, Property property)
         {
             property.Id = id;
             return await _mediator.Send(new EditProperty.Command { Property = property });
         }
 
-        [HttpDelete("{id}")] // return void
-        public async Task<IActionResult> DeleteProperty(int id)
+        [HttpDelete("{id}")] 
+        public async Task<IActionResult> DeleteProperty(long id)
         {
             await _mediator.Send(new DeleteProperty.Command { Id = id });
             return Ok();

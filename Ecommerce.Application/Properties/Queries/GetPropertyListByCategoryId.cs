@@ -13,12 +13,12 @@ namespace Ecommerce.Application.Properties.Queries
     public class GetPropertyListByCategoryId
 
     {
-        public class Query : IRequest<Result<List<GetPropertyDto>>>
+        public class Query : IRequest<List<GetPropertyDto>>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<List<GetPropertyDto>>>
+        public class Handler : IRequestHandler<Query, List<GetPropertyDto>>
         {
             private readonly IRepository<Property> _repository;
             private readonly IMapper _mapper;
@@ -29,17 +29,17 @@ namespace Ecommerce.Application.Properties.Queries
                 _mapper = mapper;
             }
 
-            public Task<Result<List<GetPropertyDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public Task<List<GetPropertyDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var propertyList = _repository.Read(false);
+                var propertyList = _repository.Read();
                 
                 if(propertyList == null) 
                 {
                     return null;
                 }
                 var result = propertyList.Where(x => x.Category == (PropertyCategory)request.Id)
-                    .Select(x => _mapper.Map<GetPropertyDto>(x));
-                return Task.FromResult(Result<List<GetPropertyDto>>.Success(result.ToList()));
+                    .Select(x => _mapper.Map<GetPropertyDto>(x)).ToList();
+                return Task.FromResult(result);
             }
         }
     }

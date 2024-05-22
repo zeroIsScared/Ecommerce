@@ -9,9 +9,9 @@ namespace Ecommerce.Application.Users.Queries
 {
     public class GetAllUsers
     {
-        public class Query : IRequest<Result<List<GetUserDto>>> { }
+        public class Query : IRequest<List<UserDto>> { }
 
-        public class Handler : IRequestHandler<Query, Result<List<GetUserDto>>>
+        public class Handler : IRequestHandler<Query, List<UserDto>>
         {
             private readonly IRepository<User> _repository;
             private readonly IMapper _mapper;
@@ -22,10 +22,10 @@ namespace Ecommerce.Application.Users.Queries
                 _mapper = mapper;
             }
 
-            public Task<Result<List<GetUserDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public Task<List<UserDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = _repository.Read(false).Select(x => _mapper.Map<GetUserDto>(x));
-                return Task.FromResult(Result<List<GetUserDto>>.Success(result.ToList()));
+                var result = _repository.Read().Select(x => _mapper.Map<UserDto>(x));
+                return Task.FromResult(result.ToList());
             }
         }
     }

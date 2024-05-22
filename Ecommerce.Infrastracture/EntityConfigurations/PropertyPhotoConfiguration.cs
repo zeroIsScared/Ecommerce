@@ -16,6 +16,8 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
             builder.HasOne(x => x.Property)
                 .WithMany(x => x.Photos)
                 .HasForeignKey(x => x.PropertyId);
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

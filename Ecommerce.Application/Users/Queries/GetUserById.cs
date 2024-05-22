@@ -11,12 +11,12 @@ namespace Ecommerce.Application.Users.Queries
 {
     public class GetUserById
     {
-        public class Query : IRequest<Result<GetUserDto>>
+        public class Query : IRequest<UserDto>
         {
-            public int Id { get; set; }
+            public long Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<GetUserDto>>
+        public class Handler : IRequestHandler<Query, UserDto>
         {
             private readonly IRepository<User> _repository;
             private readonly IMapper _mapper;
@@ -27,10 +27,11 @@ namespace Ecommerce.Application.Users.Queries
                 _mapper = mapper;
             }
 
-            public Task<Result<GetUserDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = _mapper.Map<GetUserDto>(_repository.GetById(request.Id));
-                return Task.FromResult(Result<GetUserDto>.Success(result));
+                var user = await _repository.TryGetByIdOrThrowAsync(request.Id, cancellationToken);
+                var result = _mapper.Map<UserDto>(user);
+                return result;
             }
         }
     }

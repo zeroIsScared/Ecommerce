@@ -1,7 +1,4 @@
-﻿
-
-using AutoMapper;
-using Ecommerce.Application.Interfaces;
+﻿using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using MediatR;
 
@@ -11,39 +8,35 @@ namespace Ecommerce.Application.UserFavorites.Commands
     {
         public class Command : IRequest
         {
-           public int UserId { get; set; }
-           public int PropertyId { get; set; }
+           public long UserId { get; set; }
+           public long PropertyId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
         {
             private readonly IRepository<User> _userRepository;
             private readonly IRepository<Property> _propertyRepository;
-            private readonly IRepository<UserFavorite> _userFavoriteRepository;
-            private readonly IMapper _mapper;
+            private readonly IRepository<UserFavorite> _userFavoriteRepository;            
 
             public Handler(IRepository<User> userRepository, IRepository<Property> propertyRepository,
-                IRepository<UserFavorite> userFavoriteRepository, IMapper mapper)
+                IRepository<UserFavorite> userFavoriteRepository)
             {
                 _userRepository = userRepository;
                 _propertyRepository = propertyRepository;
-                _userFavoriteRepository = userFavoriteRepository;
-                _mapper = mapper;
+                _userFavoriteRepository = userFavoriteRepository;                
             }
 
-            public Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = _userRepository.GetById(request.UserId);
-                var property = _propertyRepository.GetById(request.PropertyId);
+                var user = await _userRepository.TryGetByIdOrThrowAsync(request.UserId);
+                var property = await _propertyRepository.TryGetByIdOrThrowAsync(request.PropertyId);
                 var userFavorite = new UserFavorite() { };
                 userFavorite.Property = property;
                 userFavorite.PropertyId = request.PropertyId;
                 userFavorite.UserId = request.UserId;
                 userFavorite.User = user;
 
-                _userFavoriteRepository.Add(userFavorite);
-
-                return Task.CompletedTask;
+                await _userFavoriteRepository.AddAsync(userFavorite);                
             }
         }
     }

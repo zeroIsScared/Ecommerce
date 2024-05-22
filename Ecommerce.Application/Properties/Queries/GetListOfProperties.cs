@@ -10,9 +10,9 @@ namespace Ecommerce.Application.Properties.Queries
 {
     public class GetListOfProperties
     {
-        public class Query : IRequest<Result<List<GetPropertyDto>>> { }
+        public class Query : IRequest<List<GetPropertyDto>> { }
 
-        public class Handler : IRequestHandler<Query, Result<List<GetPropertyDto>>>
+        public class Handler : IRequestHandler<Query, List<GetPropertyDto>>
         {
             private readonly IRepository<Property> _repository;
             private readonly IMapper _mapper;
@@ -23,10 +23,10 @@ namespace Ecommerce.Application.Properties.Queries
                 _mapper = mapper;
             }
 
-            public Task<Result<List<GetPropertyDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public Task<List<GetPropertyDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var result = _repository.Read(false).Select(x => _mapper.Map<GetPropertyDto>(x));              
-                return Task.FromResult(Result < List < GetPropertyDto >>.Success(result.ToList()));
+                return Task.FromResult(result.ToList());
             }
         }
 

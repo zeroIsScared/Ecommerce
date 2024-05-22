@@ -8,8 +8,8 @@ namespace Ecommerce.Application.UserFavorites.Commands
     {
         public class Command : IRequest
         {
-            public int UserId { get; set; }
-            public int PropertyId { get; set; }
+            public long UserId { get; set; }
+            public long PropertyId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>

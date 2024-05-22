@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 
 namespace Ecommerce.WebAPI.Exceptions
@@ -17,7 +18,6 @@ namespace Ecommerce.WebAPI.Exceptions
                 Title = "Something went wrong",
                 Message = exception.Message
             };
-
             
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);

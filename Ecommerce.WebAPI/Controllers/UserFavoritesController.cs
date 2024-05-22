@@ -1,11 +1,7 @@
 ﻿using Ecommerce.Application.UserFavorites.Commands;
 using Ecommerce.Application.UserFavorites.Queries;
-using Ecommerce.Application.Users.Commands;
-using Ecommerce.Application.Users.Queries;
-using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace Ecommerce.WebAPI.Controllers
 {
@@ -16,21 +12,21 @@ namespace Ecommerce.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddUserFavorite(int userId, int propertyId)
+        public async Task<ActionResult> AddUserFavorite(long userId, long propertyId)
         {
             await _mediator.Send(new AddUserFavorite.Command { UserId = userId, PropertyId = propertyId });
             return Ok();
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserFavorites(int id)
+        public async Task<IActionResult> GetUserFavorites(long id)
         {
             var result = await _mediator.Send(new GetUserFavorites.Query { UserId = id });
-            return HandleResult(result);
+            return Ok(result);
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteUser(int userId, int propertyId)
+        public async Task<ActionResult> DeleteUser(long userId, long propertyId)
         {
             await _mediator.Send(new DeletePropertyFromFavorites.Command { UserId = userId, PropertyId = propertyId });
             return Ok();

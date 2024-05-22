@@ -21,30 +21,29 @@ namespace Ecommerce.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserId(int id)
+        public async Task<IActionResult> GetUserId(long id)
         {
             var result = await _mediator.Send(new GetUserById.Query { Id = id });
-            return HandleResult(result);
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateUser(AddOrEditUserDto user)
+        public async Task<IActionResult> CreateUser(UserDto user)
         {
-            return await _mediator.Send(new CreateUser.Command { User = user });
-
+             var result = await _mediator.Send(new CreateUser.Command { User = user });
+            return Ok(result);
         }
 
         [HttpPut]
-        public async Task<ActionResult<int>> EditUser( AddOrEditUserDto user)
-        {
-            
-            return await _mediator.Send(new EditUser.Command { User = user });
+        public async Task<IActionResult> EditUser( UserDto user)
+        {            
+            var result = await _mediator.Send(new EditUser.Command { User = user });
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(long id)
         {
-            //throw new Exception("Test");
             await _mediator.Send(new DeleteUser.Command {UserId = id });
             return Ok();
         }

@@ -16,19 +16,19 @@ namespace Ecommerce.Infrastracture
 
         public async Task SaveAsync(CancellationToken cancellationToken)
         {
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
         public async Task BeginTransactionAsync(CancellationToken cancellationToken)
         {
-            await _context.Database.BeginTransactionAsync();
+            await _context.Database.BeginTransactionAsync(cancellationToken);
         }
         public async Task CommitTransactionAsync(CancellationToken cancellationToken)
         {
-           await _context.Database.CommitTransactionAsync();
+           await _context.Database.CommitTransactionAsync(cancellationToken);
         }
         public async Task RollBackAsync(CancellationToken cancellationToken)
         {
-            await _context.Database.RollbackTransactionAsync();
+            await _context.Database.RollbackTransactionAsync(cancellationToken);
         }
     }
 }

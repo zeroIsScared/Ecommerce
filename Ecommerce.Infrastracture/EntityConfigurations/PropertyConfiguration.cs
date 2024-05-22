@@ -37,6 +37,8 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
             builder.HasOne(s => s.Address)
                 .WithMany(g => g.Properties)
                 .HasForeignKey(s => s.AddressId);
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

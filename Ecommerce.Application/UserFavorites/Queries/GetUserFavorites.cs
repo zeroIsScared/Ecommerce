@@ -12,12 +12,12 @@ namespace Ecommerce.Application.UserFavorites.Queries
 {
     public class GetUserFavorites
     {
-        public class Query : IRequest<Result<List<GetUserFavoritesDto>>>
+        public class Query : IRequest<List<GetUserFavoritesDto>>
         {
-            public int UserId { get; set; }
+            public long UserId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<List<GetUserFavoritesDto>>>
+        public class Handler : IRequestHandler<Query, List<GetUserFavoritesDto>>
         {
             private readonly IRepository<UserFavorite> _userFavoriteRepository;
             private readonly IMapper _mapper;
@@ -28,13 +28,13 @@ namespace Ecommerce.Application.UserFavorites.Queries
                 _mapper = mapper;
             }
 
-            public Task<Result<List<GetUserFavoritesDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public  Task<List<GetUserFavoritesDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var userFavorites = _userFavoriteRepository.Read(false, true)
-                    .Where(x => x.UserId == (long)request.UserId)
+                var userFavorites = _userFavoriteRepository.Read(true)
+                    .Where(x => x.UserId == request.UserId)
                     .Select(x => _mapper.Map<GetUserFavoritesDto>(x));
                 
-                return Task.FromResult(Result<List<GetUserFavoritesDto>>.Success(userFavorites.ToList()));
+                return Task.FromResult(userFavorites.ToList());
             }
         }
     }

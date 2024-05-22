@@ -6,12 +6,12 @@ namespace Ecommerce.Application.Properties.Commands
 {
     public class EditProperty
     {
-        public class Command : IRequest<int>
+        public class Command : IRequest<long>
         {
             public required Property Property { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, int>
+        public class Handler : IRequestHandler<Command, long>
         {
             private readonly IRepository<Property> _repository;
 
@@ -20,11 +20,12 @@ namespace Ecommerce.Application.Properties.Commands
                 _repository = repository;
             }
 
-            public Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<long> Handle(Command request, CancellationToken cancellationToken)
             {
-                _repository.Update(request.Property);
-                var updatedId = (int)request.Property.Id;
-                return Task.FromResult(updatedId);
+                Property property = await _repository.TryGetByIdOrThrowAsync(request.Property.Id, cancellationToken);
+                await _repository.UpdateAsync(request.Property);
+                var updatedId = request.Property.Id;
+                return updatedId;
             }
         }
     }
