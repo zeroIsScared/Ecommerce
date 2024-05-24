@@ -7,18 +7,19 @@ using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Enums;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Application.Properties.Queries
 {
     public class GetPropertyListByCategoryId
 
     {
-        public class Query : IRequest<List<GetPropertyDto>>
+        public class Query : IRequest<List<GetPropertiesDto>>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, List<GetPropertyDto>>
+        public class Handler : IRequestHandler<Query, List<GetPropertiesDto>>
         {
             private readonly IRepository<Property> _repository;
             private readonly IMapper _mapper;
@@ -29,17 +30,20 @@ namespace Ecommerce.Application.Properties.Queries
                 _mapper = mapper;
             }
 
-            public Task<List<GetPropertyDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<GetPropertiesDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var propertyList = _repository.Read();
-                
-                if(propertyList == null) 
-                {
-                    return null;
-                }
-                var result = propertyList.Where(x => x.Category == (PropertyCategory)request.Id)
-                    .Select(x => _mapper.Map<GetPropertyDto>(x)).ToList();
-                return Task.FromResult(result);
+                var result = await _repository.Read(false)                  
+                  .Where(x => x.Category == (PropertyCategory)request.Id)
+                  .Select(x => new GetPropertiesDto
+                  {   Id = x.Id,
+                      Title = x.Title,
+                      Currency = x.Currency.Symbol ?? x.Currency.Code,
+                      Price = x.Price,
+                      PhotoURL = x.Photos.First().URL
+                  })
+                  .ToListAsync(cancellationToken);
+
+                return result;                
             }
         }
     }

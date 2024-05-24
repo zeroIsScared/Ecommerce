@@ -17,7 +17,7 @@ namespace Ecommerce.WebAPI.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var result = await _mediator.Send(new GetAllUsers.Query());
-            return HandleResult(result);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]

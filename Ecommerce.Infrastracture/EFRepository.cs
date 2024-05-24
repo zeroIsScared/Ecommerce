@@ -54,7 +54,7 @@ namespace Ecommerce.Infrastracture
             await _context.SaveChangesAsync(cancellationToken);            
         }
 
-        public async Task RemoveRangeAsync(List<T> removeList, CancellationToken cancellationToken = default)
+        public async Task RemoveRangeAsync(IEnumerable<T> removeList, CancellationToken cancellationToken = default)
         {
             _context.Set<T>().RemoveRange(removeList);
 
@@ -68,7 +68,7 @@ namespace Ecommerce.Infrastracture
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task SoftRemoveRangeAsync(List<T> removeList, CancellationToken cancellationToken = default)
+        public async Task SoftRemoveRangeAsync(IEnumerable<T> removeList, CancellationToken cancellationToken = default)
         {
             foreach (var item in removeList)
             {

@@ -38,10 +38,10 @@ namespace Ecommerce.WebAPI.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<long>> CreateProperty(GetPropertyDto property)
+        public async Task<IActionResult> CreateProperty(CreatePropertyDto property)
         {
-            return await _mediator.Send(new CreateProperty.Command { RealEstate = property });
-            
+            var result = await _mediator.Send(new CreateProperty.Command { RealEstate = property });
+            return Ok(result);            
         }
 
         [HttpPut("{id}")]

@@ -61,6 +61,7 @@ namespace Ecommerce.WebAPI.Extensions
             services.AddTransient<IRepository<PropertyDetail>, EFRepository<PropertyDetail>>();
             services.AddTransient<IRepository<PropertyUtility>, EFRepository<PropertyUtility>>();
             services.AddTransient<IRepository<UserFavorite>, EFRepository<UserFavorite>>();
+            services.AddTransient<IUnitOfWork,UnitOfWork>();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateProperty>();

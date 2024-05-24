@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using Ecommerce.Application.Core;
-using Ecommerce.Application.Exceptions;
-using Ecommerce.Application.Interfaces;
-using Ecommerce.Application.Users.Dtos;
+﻿using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Application.Users.Commands
 {
@@ -52,29 +47,29 @@ namespace Ecommerce.Application.Users.Commands
                         .ThenInclude(x => x.Utilities)
                     .Include(x => x.Properties)
                         .ThenInclude(x => x.Favorites)
-                    .FirstAsync(x => x.Id == request.UserId, cancellationToken);
-                    
+                    .FirstAsync(x => x.Id == request.UserId, cancellationToken);                    
 
                 try
                 {
                     await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-                    if (user.Properties != null)
+                    if (user.Properties.Count > 0)
                     {                         
                           
-                            await _propertyDetailRepository.SoftRemoveRangeAsync(user.Properties, cancellationToken);
-                            await _propertyUtilityRepository.SoftRemoveRangeAsync(user.Properties), cancellationToken);
-                            await _userFavoriteRepository.RemoveAsync(property.Id, cancellationToken);
-                            await _propertyRepository.RemoveAsync(property.Id, cancellationToken);
+                            await _propertyDetailRepository.SoftRemoveRangeAsync(user.Properties.Select(x => x.Details), cancellationToken);
+                            await _propertyUtilityRepository.SoftRemoveRangeAsync(user.Properties.SelectMany(x => x.Utilities), cancellationToken);                            
+                            await _propertyRepository.SoftRemoveRangeAsync(user.Properties, cancellationToken);
                         
                     }
-
-                    _userRepository.RemoveAsync(request.UserId, cancellationToken);
-                    await _unitOfWork.SaveAsync();
+                    await _userFavoriteRepository.RemoveRangeAsync(user.Properties.SelectMany(x => x.Favorites), cancellationToken);
+                    await _userRepository.RemoveAsync(request.UserId, cancellationToken);
+                    await _unitOfWork.CommitTransactionAsync(cancellationToken);
                 }
                 catch (Exception ex)
                 {
-                    await _unitOfWork.CommitTransactionAsync(cancellationToken);
+                    
+                    await _unitOfWork.RollBackAsync(cancellationToken);
+                    throw new Exception("Error occured while deleting user", ex);
                 }           
             }
         }

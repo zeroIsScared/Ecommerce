@@ -25,7 +25,7 @@ namespace Ecommerce.Application.Properties.Commands
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
                 Property property = await _repository.TryGetByIdOrThrowAsync(request.Id, cancellationToken);
-                await _repository.RemoveAsync(property.Id, cancellationToken);                
+                await _repository.SoftRemoveAsync(property.Id, cancellationToken);                
             }
         }
     }

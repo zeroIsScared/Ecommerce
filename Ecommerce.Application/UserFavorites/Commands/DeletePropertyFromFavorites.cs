@@ -25,7 +25,8 @@ namespace Ecommerce.Application.UserFavorites.Commands
             {
 
                 var userFavorites = _userFavoriteRepository.Read(false);
-                var favorite = userFavorites.Where(x => x.UserId == request.UserId && x.PropertyId == request.PropertyId).FirstOrDefault();
+                var favorite = userFavorites.
+                       Where(x => x.UserId == request.UserId && x.PropertyId == request.PropertyId).FirstOrDefault();
                 
                 if (favorite != null)
                 {

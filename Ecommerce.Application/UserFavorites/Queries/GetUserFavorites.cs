@@ -3,10 +3,12 @@
 using AutoMapper;
 using Ecommerce.Application.Core;
 using Ecommerce.Application.Interfaces;
+using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Application.UserFavorites.Dtos;
 using Ecommerce.Application.Users.Dtos;
 using Ecommerce.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Application.UserFavorites.Queries
 {
@@ -31,6 +33,7 @@ namespace Ecommerce.Application.UserFavorites.Queries
             public  Task<List<GetUserFavoritesDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var userFavorites = _userFavoriteRepository.Read(true)
+                    .Include(x => x.Property)
                     .Where(x => x.UserId == request.UserId)
                     .Select(x => _mapper.Map<GetUserFavoritesDto>(x));
                 

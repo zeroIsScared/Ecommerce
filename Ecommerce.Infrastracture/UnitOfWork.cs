@@ -5,7 +5,7 @@ using Ecommerce.Infrastructure;
 
 namespace Ecommerce.Infrastracture
 {
-    public class UnitOfWork: IUnitOfWork 
+    public class UnitOfWork : IUnitOfWork 
     {
         private readonly EcommerceDBContext _context;
 

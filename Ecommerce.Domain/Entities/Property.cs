@@ -8,7 +8,7 @@ namespace Ecommerce.Domain.Entities
     {               
         public string Title { get; set; }       
         public string? Description { get; set; }
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
         public PropertyCategory Category { get; set; }
         public TransactionType TransactionType { get; set; }
         public long CurrencyId { get; set; }

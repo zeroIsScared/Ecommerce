@@ -14,12 +14,12 @@ namespace Ecommerce.Application.Properties.Commands
 {
     public class CreateProperty
     {
-        public class Command : IRequest<int>
+        public class Command : IRequest<CreatePropertyDto>
         {
-            public required GetPropertyDto RealEstate { get; set; }
+            public required CreatePropertyDto RealEstate { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<GetPropertyDto>
+        public class CommandValidator : AbstractValidator<CreatePropertyDto>
         {
             public CommandValidator()
             {
@@ -27,29 +27,30 @@ namespace Ecommerce.Application.Properties.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, int>
+        public class Handler : IRequestHandler<Command, CreatePropertyDto>
         {
             private readonly IRepository<Property> _repository;
             private readonly IMapper _mapper;
-            private readonly ILogger<Command> _logger;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(IRepository<Property> repository, IMapper mapper, ILogger<Command> logger)
+            public Handler(IRepository<Property> repository, IMapper mapper, ILogger<Handler> logger)
             {
                 _repository = repository;
                 _mapper = mapper;
                 _logger = logger;
             }
 
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<CreatePropertyDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var realEstate = _mapper.Map<Property>(request.RealEstate);
-                /*realEstate.CreatedAt = DateTimeOffset.UtcNow;
-                realEstate.CreatedBy = null;*/
+                var realEstate = _mapper.Map<Property>(request.RealEstate);              
 
                 var property =  await _repository.AddAsync(realEstate, cancellationToken);
-                var requestName = request.GetType().Name;        
+
+                var createdProperty = _mapper.Map<CreatePropertyDto>(property);
+
+                _logger.LogInformation($"Loggin here:{request}");
               
-                return await Task.FromResult((int)property.Id);
+                return createdProperty;
             }
         }
     }
