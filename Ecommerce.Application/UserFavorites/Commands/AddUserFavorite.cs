@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Application.UserFavorites.Commands
 {
@@ -16,14 +17,16 @@ namespace Ecommerce.Application.UserFavorites.Commands
         {
             private readonly IRepository<User> _userRepository;
             private readonly IRepository<Property> _propertyRepository;
-            private readonly IRepository<UserFavorite> _userFavoriteRepository;            
+            private readonly IRepository<UserFavorite> _userFavoriteRepository;
+            private readonly ILogger<Handler> _logger;
 
             public Handler(IRepository<User> userRepository, IRepository<Property> propertyRepository,
-                IRepository<UserFavorite> userFavoriteRepository)
+                IRepository<UserFavorite> userFavoriteRepository, ILogger<Handler> logger)
             {
                 _userRepository = userRepository;
                 _propertyRepository = propertyRepository;
-                _userFavoriteRepository = userFavoriteRepository;                
+                _userFavoriteRepository = userFavoriteRepository;
+                _logger = logger;
             }
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
@@ -36,7 +39,9 @@ namespace Ecommerce.Application.UserFavorites.Commands
                 userFavorite.UserId = request.UserId;
                 userFavorite.User = user;
 
-                await _userFavoriteRepository.AddAsync(userFavorite);                
+                await _userFavoriteRepository.AddAsync(userFavorite);
+
+                _logger.LogInformation($"The property with id {request.PropertyId} was added to users favorites with id {request.UserId}.");
             }
         }
     }

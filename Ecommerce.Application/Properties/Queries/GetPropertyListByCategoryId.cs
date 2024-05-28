@@ -8,6 +8,7 @@ using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Application.Properties.Queries
 {
@@ -23,16 +24,20 @@ namespace Ecommerce.Application.Properties.Queries
         {
             private readonly IRepository<Property> _repository;
             private readonly IMapper _mapper;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(IRepository<Property> repository, IMapper mapper)
+            public Handler(IRepository<Property> repository, IMapper mapper, ILogger<Handler> logger)
             {
                 _repository = repository;
                 _mapper = mapper;
+                _logger = logger;
             }
 
             public async Task<List<GetPropertiesDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await _repository.Read(false)                  
+                var result = await _repository.Read(false)
+                  .Include(x => x.Currency)
+                  .Include(x => x.Photos)
                   .Where(x => x.Category == (PropertyCategory)request.Id)
                   .Select(x => new GetPropertiesDto
                   {   Id = x.Id,
@@ -42,6 +47,8 @@ namespace Ecommerce.Application.Properties.Queries
                       PhotoURL = x.Photos.First().URL
                   })
                   .ToListAsync(cancellationToken);
+
+                _logger.LogInformation($"The properties list of catagory with id {request.Id} was retrieved.");
 
                 return result;                
             }

@@ -1,10 +1,12 @@
-﻿using Ecommerce.Application.Users.Dtos;
-using Ecommerce.Domain.Entities;
+﻿
+
+using Ecommerce.Application.Properties.Dtos;
+using Ecommerce.Application.Users.Dtos;
 using Ecommerce.Domain.Enums;
 
-namespace Ecommerce.Application.Properties.Dtos
+namespace Ecommerce.Application.UserFavorites.Dtos
 {
-    public class GetPropertyDto
+    public class FavoritePropertyDto
     {
         public long Id { get; set; }
         public required string Title { get; set; }
@@ -12,11 +14,10 @@ namespace Ecommerce.Application.Properties.Dtos
         public decimal Price { get; set; }
         public PropertyCategory Category { get; set; }
         public TransactionType TransactionType { get; set; }
-        public CurrencyDto Currency { get; set; } = default!;
-        public UserDto User { get; set; } = default!;
-        public PropertyDetailsDto Details { get; set; } = default!;       
+        public CurrencyDto Currency { get; set; } = default!;       
+        public PropertyDetailsDto Details { get; set; } = default!;
         public AddressDto Address { get; set; } = default!;
-        public ICollection<PropertyUtilityDto> Utilities { get; set; } = default!;      
+        public ICollection<PropertyUtilityDto> Utilities { get; set; } = default!;
         public ICollection<PhotoDto> Photos { get; set; } = default!;
     }
 }

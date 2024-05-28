@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Ecommerce.Domain.Entities
@@ -12,6 +13,7 @@ namespace Ecommerce.Domain.Entities
         public string? Region {  get; set; }
         public long DistrictId { get; set; }
         public District District { get; set; } = default!;
-        public ICollection<Address> Properties { get; set; } = default!;
+        [JsonIgnore]
+        public ICollection<Address> Addresses { get; set; } = default!;
     }
 }

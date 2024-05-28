@@ -5,6 +5,7 @@ using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Users.Dtos;
 using Ecommerce.Domain.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Application.Users.Commands
 {
@@ -19,11 +20,14 @@ namespace Ecommerce.Application.Users.Commands
         {
             private readonly IRepository<User> _repository;
             private readonly IMapper _mapper;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(IRepository<User> repository, IMapper mapper)
+            public Handler(IRepository<User> repository,
+                IMapper mapper, ILogger<Handler> logger)
             {
                 _repository = repository;
                 _mapper = mapper;
+                _logger = logger;
             }
 
             public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
@@ -31,6 +35,7 @@ namespace Ecommerce.Application.Users.Commands
                 var user = _mapper.Map<User>(request.User);
                 var edited = await _repository.UpdateAsync(user, cancellationToken);
                 var result = _mapper.Map<UserDto>(edited);
+                _logger.LogInformation($"The user with id {request.User.Id} was edited.");
                 return result;
             }
         }

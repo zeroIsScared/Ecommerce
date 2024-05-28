@@ -14,7 +14,7 @@ namespace Ecommerce.Application.Core.Mappings
         {
             CreateMap<Property, GetPropertyDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap(); 
-            CreateMap<CurrencyDto, CurrencyDto>().ReverseMap();
+            CreateMap<Currency, CurrencyDto>().ReverseMap();
             CreateMap<UserFavorite, GetUserFavoritesDto>().ReverseMap();            
             CreateMap<PropertyDetail, PropertyDetailsDto>().ReverseMap();
             CreateMap<PropertyPhoto, PhotoDto>().ReverseMap();
@@ -25,6 +25,7 @@ namespace Ecommerce.Application.Core.Mappings
                 .ForMember(dst => dst.LocalityRegion, y => y.MapFrom(src => src.Locality.Region))
                 .ReverseMap();
             CreateMap<Property, CreatePropertyDto>().ReverseMap();
+            CreateMap<Property, FavoritePropertyDto>().ReverseMap();
         }
     }
 }

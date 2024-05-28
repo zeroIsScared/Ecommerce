@@ -1,11 +1,9 @@
-﻿
-using AutoMapper;
-using Ecommerce.Application.Core;
-using Ecommerce.Application.Interfaces;
+﻿using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Application.Properties.Queries
 {
@@ -15,11 +13,13 @@ namespace Ecommerce.Application.Properties.Queries
 
         public class Handler : IRequestHandler<Query, List<GetPropertiesDto>>
         {
-            private readonly IRepository<Property> _repository;            
+            private readonly IRepository<Property> _repository;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(IRepository<Property> repository)
+            public Handler(IRepository<Property> repository, ILogger<Handler> logger)
             {
-                _repository = repository;               
+                _repository = repository;
+                _logger = logger;
             }
 
             public async Task<List<GetPropertiesDto>> Handle(Query request, CancellationToken cancellationToken)
@@ -35,11 +35,12 @@ namespace Ecommerce.Application.Properties.Queries
                         Price = x.Price,
                         PhotoURL = x.Photos.First().URL
                     })
-                    .ToListAsync(cancellationToken);   
+                    .ToListAsync(cancellationToken);
+
+                _logger.LogInformation($"The list of all properties was retrieved");
 
                 return result;
             }
         }
-
     }
 }

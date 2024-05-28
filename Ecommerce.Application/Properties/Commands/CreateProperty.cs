@@ -1,14 +1,12 @@
 ﻿
 using AutoMapper;
-using Azure;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Domain.Entities;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using System.Text.Json;
+
 
 namespace Ecommerce.Application.Properties.Commands
 {
@@ -48,7 +46,7 @@ namespace Ecommerce.Application.Properties.Commands
 
                 var createdProperty = _mapper.Map<CreatePropertyDto>(property);
 
-                _logger.LogInformation($"Loggin here:{request}");
+                _logger.LogInformation($"Property with id {realEstate.Id} was created.");
               
                 return createdProperty;
             }

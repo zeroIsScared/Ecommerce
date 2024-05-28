@@ -10,6 +10,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 
 namespace Ecommerce.WebAPI.Extensions
@@ -19,7 +20,11 @@ namespace Ecommerce.WebAPI.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services,
             IConfiguration config)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(opt =>
+                {
+                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(opt =>

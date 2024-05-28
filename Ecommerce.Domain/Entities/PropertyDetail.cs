@@ -1,5 +1,6 @@
 ﻿
 using Ecommerce.Domain.Enums;
+using System.Text.Json.Serialization;
 
 
 namespace Ecommerce.Domain.Entities
@@ -16,6 +17,7 @@ namespace Ecommerce.Domain.Entities
         public ParkingType? ParkingType { get; set; }
         public LandType? LandType { get; set; }
         public long PropertyId { get; set; }
+        [JsonIgnore]
         public Property Property { get; set; } = default!;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Application.UserFavorites.Commands
 {
@@ -14,11 +15,13 @@ namespace Ecommerce.Application.UserFavorites.Commands
 
         public class Handler : IRequestHandler<Command>
         {            
-            private readonly IRepository<UserFavorite> _userFavoriteRepository;            
+            private readonly IRepository<UserFavorite> _userFavoriteRepository;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(IRepository<UserFavorite> userFavoriteRepository)
+            public Handler(IRepository<UserFavorite> userFavoriteRepository, ILogger<Handler> logger)
             {                
-                _userFavoriteRepository = userFavoriteRepository;                
+                _userFavoriteRepository = userFavoriteRepository;
+                _logger = logger;
             }
 
             public Task Handle(Command request, CancellationToken cancellationToken)
@@ -32,6 +35,8 @@ namespace Ecommerce.Application.UserFavorites.Commands
                 {
                     favorite.IsDeleted = true;
                 }
+
+                _logger.LogInformation($"The property with id {request.PropertyId} was deleted to users favorites with id {request.UserId}.");
 
                 return Task.CompletedTask;
             }

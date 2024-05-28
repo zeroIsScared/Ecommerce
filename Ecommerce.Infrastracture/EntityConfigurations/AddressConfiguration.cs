@@ -12,7 +12,7 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
         {
             base.Configure(builder);
             builder.HasOne(s => s.Locality)
-                  .WithMany(s => s.Properties)
+                  .WithMany(s => s.Addresses)
                   .HasForeignKey(s => s.LocalityId);
 
             builder.Property(s => s.Street)

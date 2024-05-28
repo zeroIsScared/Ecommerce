@@ -1,6 +1,7 @@
 ﻿
 
 using Ecommerce.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace Ecommerce.Domain.Entities
 {
@@ -13,10 +14,10 @@ namespace Ecommerce.Domain.Entities
         public TransactionType TransactionType { get; set; }
         public long CurrencyId { get; set; }
         public Currency Currency { get; set; } = default!;
-        public long UserId { get; set; }
+        public long UserId { get; set; }       
         public User User { get; set; } = default!;     
         public PropertyDetail Details { get; set; } = default!; 
-        public long AddressId {  get; set; }
+        public long AddressId {  get; set; }        
         public Address Address { get; set; } = default!;
         public ICollection<PropertyUtility> Utilities { get; set; } = default!;
         public ICollection<UserFavorite> Favorites { get; set; } = default!;

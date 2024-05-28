@@ -8,6 +8,7 @@ using Ecommerce.Application.Users.Dtos;
 using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace Ecommerce.Application.Properties.Queries
@@ -23,17 +24,19 @@ namespace Ecommerce.Application.Properties.Queries
         {
             private readonly IRepository<Property> _repository;
             private readonly IMapper _mapper;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(IRepository<Property> repository, IMapper mapper)
+            public Handler(IRepository<Property> repository, IMapper mapper, ILogger<Handler> logger)
             {
                 _repository = repository;
                 _mapper = mapper;
+                _logger = logger;
             }
             public async Task<GetPropertyDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 await _repository.ExistsOrThrowsAsync(request.Id, cancellationToken);
                 var property = await _repository.Read()
-                    /*.Include(x => x.Currency)
+                    .Include(x => x.Currency)
                     .Include(x => x.Details)
                     .Include(x => x.Utilities)
                         .ThenInclude(x => x.Utility)
@@ -41,25 +44,12 @@ namespace Ecommerce.Application.Properties.Queries
                     .Include(x => x.Photos)
                     .Include(x => x.Address)
                         .ThenInclude(x => x.Locality)
-                           .ThenInclude(x => x.District)*/
-                  .FirstAsync(x => x.Id == request.Id, cancellationToken);
-/*
-                var newProperty = new GetPropertyDto()
-                {
+                           .ThenInclude(x => x.District)
+                  .FirstAsync(x => x.Id == request.Id, cancellationToken);               
 
-                    Title = property.Title,
-                    Currency = property.Currency.Symbol ?? property.Currency.Code,
-                    Price = property.Price,
-                    Address = property.Address,
-                    Category = property.Category,
-                    Description = property.Description,
-                    Details = property.Details,
-                    TransactionType = property.TransactionType,
-                    User = _mapper.Map<UserDto>(property.User),
-                    Photos = property.Photos
-                };*/
+                var result = _mapper.Map<GetPropertyDto>(property);
 
-                var result = _mapper.Map<GetPropertyDto>(property);                
+                _logger.LogInformation($"The property with id {request.Id} was retrieved.");
 
                 return result;
             }
