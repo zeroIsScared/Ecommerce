@@ -8,8 +8,9 @@ using System.Reflection;
 
 namespace Ecommerce.Infrastructure
 {
-    public class EcommerceDBContext : DbContext
+    public class EcommerceDBContext : IdentityDbContext<ApplicationUser>
     {       
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Currency> Currencies { get; set; } = default!;       
         public DbSet<Utility> Utilities { get; set; } = default!;
         public DbSet<Property> Properties { get; set; } = default!;        

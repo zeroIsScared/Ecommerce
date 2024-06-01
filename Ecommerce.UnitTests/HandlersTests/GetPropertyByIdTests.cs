@@ -31,11 +31,11 @@ namespace Ecommerce.UnitTests.HandlersTests
         {
             //Arrange
             var propertyId = 9;
-            var handler = new GetPropertyById.Handler( _repository, _mapper, _logger);
-            var query = new GetPropertyById.Query { Id = propertyId};
+            var handler = new GetPropertyById.Handler(_repository, _mapper, _logger);
+            var query = new GetPropertyById.Query { Id = propertyId };
             var expectedResult = 
 
-            var property = _repository.Read()
+             _repository.Read()
                    .Include(x => x.Currency)
                    .Include(x => x.Details)
                    .Include(x => x.Utilities)
@@ -47,7 +47,7 @@ namespace Ecommerce.UnitTests.HandlersTests
                           .ThenInclude(x => x.District)
                  .FirstAsync(x => x.Id == propertyId, cancellationToken).Returns(expectedResult);
 
-            
+
 
             //Act 
             var actualResult = await handler.Handle(query, cancellationToken);

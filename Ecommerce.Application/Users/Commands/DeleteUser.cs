@@ -56,13 +56,10 @@ namespace Ecommerce.Application.Users.Commands
                     await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
                     if (user.Properties.Count > 0)
-                    {                         
-                          
-                            await _propertyDetailRepository.SoftRemoveRangeAsync(user.Properties.Select(x => x.Details), cancellationToken);
-                            await _propertyUtilityRepository.SoftRemoveRangeAsync(user.Properties.SelectMany(x => x.Utilities), cancellationToken);                            
-                            await _propertyRepository.SoftRemoveRangeAsync(user.Properties, cancellationToken);
-                        
+                    {                                
+                            await _propertyRepository.SoftRemoveRangeAsync(user.Properties, cancellationToken);                        
                     }
+
                     await _userFavoriteRepository.RemoveRangeAsync(user.Properties.SelectMany(x => x.Favorites), cancellationToken);
                     await _userRepository.RemoveAsync(request.UserId, cancellationToken);
                     await _unitOfWork.CommitTransactionAsync(cancellationToken);

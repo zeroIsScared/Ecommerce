@@ -28,7 +28,7 @@ namespace Ecommerce.Application.Properties.Commands
                 await _repository.TryGetByIdOrThrowAsync(request.Property.Id, cancellationToken);
                 await _repository.UpdateAsync(request.Property, cancellationToken);
                 var updatedId = request.Property.Id;
-                _logger.LogInformation($"Property with id {request.Property.Id} was deleted.");
+                _logger.LogInformation($"Property with id {request.Property.Id} was updated.");
                 return updatedId;
             }
         }

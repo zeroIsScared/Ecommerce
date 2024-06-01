@@ -8,6 +8,7 @@ using Ecommerce.Infrastructure;
 using Ecommerce.WebAPI.Exceptions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -60,6 +61,8 @@ namespace Ecommerce.WebAPI.Extensions
             {
                 options.UseSqlServer(config.GetConnectionString("Default"));
             });
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<EcommerceDBContext>();
             services.AddAuthorization();
             services.AddTransient<IRepository<Property>, EFRepository<Property>>();
             services.AddTransient<IRepository<User>, EFRepository<User>>();
