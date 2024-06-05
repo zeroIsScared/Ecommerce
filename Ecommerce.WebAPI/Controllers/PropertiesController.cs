@@ -45,10 +45,11 @@ namespace Ecommerce.WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<long>> EditProperty(long id, Property property)
+        public async Task<IActionResult> EditProperty(long id, CreatePropertyDto property)
         {
             property.Id = id;
-            return await _mediator.Send(new EditProperty.Command { Property = property });
+            var result = await _mediator.Send(new EditProperty.Command { RealEstate = property });
+            return Ok(result);
         }
 
         [HttpDelete("{id}")] 

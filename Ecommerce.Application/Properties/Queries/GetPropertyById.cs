@@ -34,7 +34,8 @@ namespace Ecommerce.Application.Properties.Queries
             }
             public async Task<GetPropertyDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                await _repository.ExistsOrThrowsAsync(request.Id, cancellationToken);
+                var exist = await _repository.ExistsOrThrowsAsync(request.Id, cancellationToken);
+
                 var property = await _repository.Read()
                     .Include(x => x.Currency)
                     .Include(x => x.Details)

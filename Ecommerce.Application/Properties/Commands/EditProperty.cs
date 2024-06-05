@@ -1,4 +1,6 @@
-﻿using Ecommerce.Application.Interfaces;
+﻿using AutoMapper;
+using Ecommerce.Application.Interfaces;
+using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -7,29 +9,37 @@ namespace Ecommerce.Application.Properties.Commands
 {
     public class EditProperty
     {
-        public class Command : IRequest<long>
+        public class Command : IRequest<CreatePropertyDto>
         {
-            public required Property Property { get; set; }
+            public required CreatePropertyDto RealEstate { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, long>
+        public class Handler : IRequestHandler<Command, CreatePropertyDto>
         {
             private readonly IRepository<Property> _repository;
+            private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(IRepository<Property> repository, ILogger<Handler> logger)
+            public Handler(IRepository<Property> repository, IMapper mapper, ILogger<Handler> logger)
             {
                 _repository = repository;
+                _mapper = mapper;
                 _logger = logger;
             }
 
-            public async Task<long> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<CreatePropertyDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                await _repository.TryGetByIdOrThrowAsync(request.Property.Id, cancellationToken);
-                await _repository.UpdateAsync(request.Property, cancellationToken);
-                var updatedId = request.Property.Id;
-                _logger.LogInformation($"Property with id {request.Property.Id} was updated.");
-                return updatedId;
+                await _repository.ExistsOrThrowsAsync((long)request.RealEstate.Id!, cancellationToken);
+            
+                var realEstate = _mapper.Map<Property>(request.RealEstate);
+
+                var property = await _repository.UpdateAsync(realEstate, cancellationToken);
+
+                var updatedProperty = _mapper.Map<CreatePropertyDto>(property);              
+              
+                
+                _logger.LogInformation($"Property with id {request.RealEstate.Id} was updated.");
+                return updatedProperty ;
             }
         }
     }

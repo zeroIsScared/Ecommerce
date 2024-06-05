@@ -18,7 +18,10 @@ namespace ECommerce.UnitTest.Fakers
             RuleFor(x => x.User, new UserFaker().Generate());
             RuleFor(x => x.Currency, new CurrencyFaker().Generate());
             RuleFor(x => x.Photos, new PhotoFaker().Generate(2));
-            RuleFor(x => x.IsDeleted, y => y.Equals(false));
+            RuleFor(x => x.Details, new PropertyDetailsFaker().Generate());
+            RuleFor(x => x.Address, new AddressFaker().Generate());
+            RuleFor(x => x.Utilities, new PropertyUtilityFaker().Generate(5));
+            RuleFor(x => x.IsDeleted, y => false);
         }
     }
 }

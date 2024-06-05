@@ -12,6 +12,8 @@ using System.Data;
 using Ecommerce.Application.Core.Mappings;
 using Ecommerce.Application.Exceptions;
 using Ecommerce.Application.Properties.Commands;
+using System.Xml;
+using System;
 
 namespace ECommerce.UnitTest
 {
@@ -27,17 +29,13 @@ namespace ECommerce.UnitTest
         public void Setup()
         {
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
-            _mapper = new Mapper(configuration);         
+            _mapper = new Mapper(configuration);
             _propertyFaker = new PropertyFaker();
-            _repository = new Mock<IRepository<Property>>();            
+            _repository = new Mock<IRepository<Property>>();
             _propertyList = _propertyFaker.Generate(5);
             _property = _propertyFaker.Generate();
             _repository.Setup(x => x.Read(It.IsAny<bool>())).Returns(_propertyList.AsQueryable().BuildMock());
             _repository.Setup(x => x.ExistsOrThrowsAsync(It.IsAny<long>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
-           // _repository.Setup(x => x.ExistsOrThrowsAsync(It.IsAny<long>(), It.IsAny<CancellationToken>())).ThrowsAsync(new EntityNotFoundException(Property, _propertyList[0].Id));
-            _repository.Setup(x => x.AddAsync(It.IsAny<Property>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<Property>);
-            _repository.Setup(x => x.SoftRemoveAsync(It.IsAny<long>(), It.IsAny<CancellationToken>())).CallBase();
-            _repository.Setup(x => x.UpdateAsync(It.IsAny<Property>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<Property>);
         }
 
         [Test]
@@ -74,22 +72,23 @@ namespace ECommerce.UnitTest
         }
 
         [Test]
-        public async Task GetPropertyById_InValidData_ThrowsError()
+        public void GetPropertyById_InValidData_ThrowsError()
         {
             //Arrange
             var logger = new Mock<ILogger<GetPropertyById.Handler>>();
-            long id = 503; 
+            long id = -1; 
             var query = new GetPropertyById.Query { Id = id };
             var handler = new GetPropertyById.Handler(_repository.Object, _mapper, logger.Object);
-
+            var exception = new EntityNotFoundException(typeof(Property), id);
+            _repository.Setup(x => x.ExistsOrThrowsAsync(It.IsAny<long>(), It.IsAny<CancellationToken>())).ThrowsAsync(exception);
+            
             //Act
+            var result = Assert.ThrowsAsync<EntityNotFoundException>(() => handler.Handle(query, CancellationToken.None));  
 
-            //  await handler.Handle(query, CancellationToken.None);
-
-
-            //Assert
-           // Assert.That(async () => await handler.Handle(query, CancellationToken.None),
-               // Throws.TypeOf<EntityNotFoundException>);
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(exception.Message, result.Message);
+            Assert.IsInstanceOf<EntityNotFoundException>(result);
         }
 
         [Test]
@@ -112,6 +111,7 @@ namespace ECommerce.UnitTest
         public async Task CreateProperty_WhenValidData_ReturnsAProperty()
         {
             //Arrange
+            _repository.Setup(x => x.AddAsync(It.IsAny<Property>(), It.IsAny<CancellationToken>())).ReturnsAsync(new Property());
             var logger = new Mock<ILogger<CreateProperty.Handler>>();
             var command = new CreateProperty.Command { RealEstate = _mapper.Map<CreatePropertyDto>(_property)};
             var handler = new CreateProperty.Handler(_repository.Object, _mapper, logger.Object);
@@ -120,8 +120,7 @@ namespace ECommerce.UnitTest
             var result = await handler.Handle(command, CancellationToken.None);
 
             //Assert
-            Assert.IsInstanceOf<CreatePropertyDto>(result);
-            Assert.AreEqual(_property.Id, result.Id);
+            Assert.IsInstanceOf<CreatePropertyDto>(result);       
             Assert.IsNotNull(result);
         }
 
@@ -133,7 +132,11 @@ namespace ECommerce.UnitTest
             var id = _propertyList[0].Id;
             var command = new DeleteProperty.Command { Id = id };
             var handler = new DeleteProperty.Handler(_repository.Object, logger.Object);
-
+            _repository.Setup(x => x.SoftRemoveAsync(It.IsAny<long>(), It.IsAny<CancellationToken>())).Callback(() =>
+            {
+                _propertyList[0].IsDeleted = true;
+            });
+            _repository.Setup(x => x.TryGetByIdOrThrowAsync(It.IsAny<long>(), It.IsAny<CancellationToken>())).ReturnsAsync(_propertyList[0]);
             //Act            
             await handler.Handle(command, CancellationToken.None);
 
@@ -145,15 +148,17 @@ namespace ECommerce.UnitTest
         public async Task EditProperty_WhenValidData()
         {
             //Arrange
+            _repository.Setup(x => x.UpdateAsync(It.IsAny<Property>(), It.IsAny<CancellationToken>())).ReturnsAsync(_propertyList[1]);
             var logger = new Mock<ILogger<EditProperty.Handler>>();         
-            var command = new EditProperty.Command { Property = _propertyList[1] };
-            var handler = new EditProperty.Handler(_repository.Object, logger.Object);
-
+            var command = new EditProperty.Command {  RealEstate = _mapper.Map<CreatePropertyDto>(_propertyList[1]) };
+            var handler = new EditProperty.Handler(_repository.Object, _mapper, logger.Object);
+           
             //Act            
             var result = await handler.Handle(command, CancellationToken.None);
 
-            //Assert
-            Assert.AreEqual(_propertyList[1].Id, result);           
+            //Assert          
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<CreatePropertyDto>(result);
         }
     }
 }

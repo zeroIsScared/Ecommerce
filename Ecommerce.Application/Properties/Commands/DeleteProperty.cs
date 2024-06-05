@@ -28,7 +28,7 @@ namespace Ecommerce.Application.Properties.Commands
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                Property property = await _repository.TryGetByIdOrThrowAsync(request.Id, cancellationToken);
+                var property = await _repository.TryGetByIdOrThrowAsync(request.Id, cancellationToken);
                 await _repository.SoftRemoveAsync(property.Id, cancellationToken);
                 _logger.LogInformation($"Property with id {request.Id} was deleted.");
             }
