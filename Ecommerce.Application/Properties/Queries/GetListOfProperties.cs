@@ -27,13 +27,15 @@ namespace Ecommerce.Application.Properties.Queries
                 var result = await _repository.Read(false)
                     .Include(x => x.Currency)
                     .Include(x => x.Photos)
+                    .Include(x => x.User)
                     .Select(x => new GetPropertiesDto 
                     {  
                         Id = x.Id,
                         Title = x.Title,
                         Currency = x.Currency.Symbol ?? x.Currency.Code,
                         Price = x.Price,
-                        PhotoURL = x.Photos.First().URL
+                        PhotoURL = x.Photos.First().URL,
+                        UserId = x.User.Id,
                     })
                     .ToListAsync(cancellationToken);
 

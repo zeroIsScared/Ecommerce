@@ -48,7 +48,7 @@ namespace Ecommerce.Application.UserFavorites.Queries
                         .ThenInclude(x => x.Utilities)
                     .Include(x => x.Property)
                         .ThenInclude(x => x.Photos)                   
-                    .Where(x => x.UserId == request.UserId)
+                    .Where(x => x.UserId == request.UserId && x.IsDeleted == false)
                     .ToListAsync(cancellationToken);
 
                 var result = _mapper.Map<List<GetUserFavoritesDto>>(userFavorites);

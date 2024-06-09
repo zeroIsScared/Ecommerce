@@ -1,28 +1,24 @@
 
-import { Button, Container, Menu } from "semantic-ui-react";
+import { Button, Menu } from "semantic-ui-react";
+import { NavLink } from "react-router-dom";
 
-interface Props {
-    openForm: () => void;
-}
 
-export default function Navbar({ openForm }: Props) {
+export default function Navbar() {
     const logeStyles = {
         marginRight: '10px',
     };
 
     return (
         <Menu inverted fixed="top">
-            <Container>
-                <Menu.Item header>
-                    <img src="./assets/.jpg" alt="logo" style={logeStyles} />
-                    Ecommerce
-                </Menu.Item>
-                <Menu.Item name="All Properties" />
-                <Menu.Item name="Your Properties" />
-                <Menu.Item >
-                    <Button standard content="Create Property" color="olive" onClick={openForm} />
-                </Menu.Item>
-            </Container>
+            <Menu.Item as={NavLink} to='/' header>
+                <img src="../assets/.jpg" alt="logo" style={logeStyles} />
+                Ecommerce
+            </Menu.Item>
+            <Menu.Item as={NavLink} to='/userProperties' name="Your Properties" />
+            <Menu.Item as={NavLink} to='/userFavorites' name="Favorites" />
+            <Menu.Item >
+                <Button s={NavLink} to='/createProperty' standard content="Create Property" color="olive" />
+            </Menu.Item>
         </Menu>
     )
 }

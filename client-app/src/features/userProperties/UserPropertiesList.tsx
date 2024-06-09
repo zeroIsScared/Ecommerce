@@ -1,31 +1,15 @@
 import { Button, Card, CardContent, CardHeader, CardMeta, Image, Segment } from "semantic-ui-react";
-import { Properties } from "../../app/models/properties"
-import { SyntheticEvent, useEffect, useState } from "react";
+
 import { useStore } from "../../app/stores/store";
 import { Link } from "react-router-dom";
 
 
 
 
-export default function PropertiesList() {
+export default function UserPropertiesList() {
     // const [target, setTarget] = useState('');
     const { propertyStore } = useStore();
     const { properties } = propertyStore;
-
-    // function deleteProperty(id: number) {
-    //     setSubmiting(true);
-    //     agent.Properties.delete(id).then(() => {
-    //       setProperties([...properties.filter(x => x.id !== id)]);
-    //       setSubmiting(false);
-    //     })
-    //   };
-
-
-    // function handlePropertyDelete(e: SyntheticEvent<HTMLButtonElement>, id: number) {
-    //     setTarget(e.currentTarget.name);
-    //     deleteProperty(id);
-    // }    
-
 
     return (
         <Segment>
@@ -40,7 +24,7 @@ export default function PropertiesList() {
                         </CardContent>
                         <CardContent extra>
                             <div className="ui three buttons">
-                                <Button as={Link} to={`/Properties/${property.id}`} standard color='olive' onClick={() => setSelectedPropertyId(property.id)}>
+                                <Button as={Link} to={`/Properties/${property.id}`} standard color='olive' >
                                     View
                                 </Button>
                                 {/* <Button name={property.id} loading={submiting && target == `${property.id}`} basic color='orange'

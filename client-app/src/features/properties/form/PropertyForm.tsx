@@ -2,19 +2,14 @@ import { Button, Form, FormField, FormGroup, Segment } from "semantic-ui-react"
 import { AuthorType } from "../../../app/enums/authorType"
 import { Property } from "../../../app/models/property";
 import { ChangeEvent, useState } from "react";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { useStore } from "../../../app/stores/store";
 
 
-interface Props {
-    selectedProperty: Property | undefined;
-    closeForm: () => void;
-    createOrEdit: (property: Property) => void;
-    submiting: boolean;
-}
 
-export default function PropertyFrom({ selectedProperty, closeForm, createOrEdit, submiting }: Props) {
+export default function PropertyFrom() {
+    const { propertyStore } = useStore();
 
-    const initialState = selectedProperty ?? {
+    const initialState = propertyStore.selectedProperty ?? {
         id: 0,
         title: '',
         description: '',
@@ -96,8 +91,8 @@ export default function PropertyFrom({ selectedProperty, closeForm, createOrEdit
                         value={property.details.authorType} name='authorType' onChange={handleInputChange}
                     />
                 </FormGroup>
-                <Button loading={submiting} floated="right" type='submit' content='Submit' color="olive" />
-                <Button floated="right" type='button' content='Cancel' onClick={closeForm} />
+                <Button floated="right" type='submit' content='Submit' color="olive" />
+                <Button floated="right" type='button' content='Cancel' onClick={() => propertyStore.closeForm} />
             </Form>
         </Segment>
     )

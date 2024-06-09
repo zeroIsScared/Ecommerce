@@ -12,6 +12,7 @@ namespace Ecommerce.Application.Properties.Dtos
         public required string Title { get; set; }        
         public decimal Price { get; set; }
         public string Currency { get; set; } = default!;
-       public string PhotoURL { get; set; } =default!;
+        public string PhotoURL { get; set; } =default!;
+        public long UserId { get; set; }
     }
 }

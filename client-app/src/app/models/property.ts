@@ -6,6 +6,7 @@ import { User } from "./user"
 import { Utility } from "./utility"
 
 export interface Property {
+    photoURL: string
     id: number
     title: string
     description: string

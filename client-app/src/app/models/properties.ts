@@ -4,4 +4,5 @@ export interface Properties {
     price: number
     currency: string
     photoURL: string
+    userId: number
 } 

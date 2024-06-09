@@ -7,6 +7,6 @@ namespace Ecommerce.Application.UserFavorites.Dtos
     {
         public long UserId { get; set; }       
         public long PropertyId { get; set; }
-        public FavoritePropertyDto Property { get; set; } = default!;
+        public GetPropertyDto Property { get; set; } = default!;
     }
 }

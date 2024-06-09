@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { Properties } from '../models/properties';
 import { Property } from '../models/property';
+import { AddUserFavoritesPayload } from '../models/addUserFavoritesPayload';
+
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -24,21 +26,28 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    post: <Property>(url: string, body: object) => axios.post<Property>(url, body).then(responseBody),
-    put: <Property>(url: string, body: object) => axios.put<Property>(url, body).then(responseBody),
-    del: <Property>(url: string) => axios.delete<Property>(url).then(responseBody),
+    post: <T>(url: string, body: object) => axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: object) => axios.put<T>(url, body).then(responseBody),
+    del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
+    delete: <T>(url: string, body: object) => axios.delete<T>(url, body).then(responseBody),
 };
 
 const Properties = {
     list: () => requests.get<Properties[]>('/Properties'),
-    details: (id: number) => requests.get<Property>(`/Properties/${id}`),
+    details: (id: string | undefined) => requests.get<Property>(`/Properties/${id}`),
     create: (property: Property) => axios.post<Property>(`/Properties/`, property),
     update: (property: Property) => axios.put<Property>(`/Properties/${property.id}`, property),
-    delete: (id: number) => axios.delete<void>(`/Properties/${id}`)
+    del: (id: number) => axios.delete<void>(`/Properties/${id}`)
 };
 
+const UserFavorites = {
+    list: () => requests.get<Property[]>('/UserFavorites'),
+    create: (addUserFavorite: AddUserFavoritesPayload) => axios.post<void>(`/UserFavorites`, addUserFavorite),
+}
+
 const agent = {
-    Properties
+    Properties,
+    UserFavorites
 }
 
 export default agent;
