@@ -17,7 +17,7 @@ export default function Navbar() {
             <Menu.Item as={NavLink} to='/userProperties' name="Your Properties" />
             <Menu.Item as={NavLink} to='/userFavorites' name="Favorites" />
             <Menu.Item >
-                <Button s={NavLink} to='/createProperty' standard content="Create Property" color="olive" />
+                <Button as={NavLink} to='/createProperty' standard content="Create Property" color="olive" />
             </Menu.Item>
         </Menu>
     )

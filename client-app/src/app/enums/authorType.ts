@@ -1,4 +1,4 @@
 export enum AuthorType {
-    NaturalPerson = 1,
-    LegalPerson
+    'Natural Person' = 1,
+    'Legal Person'
 }

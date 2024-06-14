@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Properties } from '../models/properties';
 import { Property } from '../models/property';
 import { AddUserFavoritesPayload } from '../models/addUserFavoritesPayload';
+import { CreateProperty } from '../models/createProperty';
 
 
 const sleep = (delay: number) => {
@@ -35,14 +36,15 @@ const requests = {
 const Properties = {
     list: () => requests.get<Properties[]>('/Properties'),
     details: (id: string | undefined) => requests.get<Property>(`/Properties/${id}`),
-    create: (property: Property) => axios.post<Property>(`/Properties/`, property),
-    update: (property: Property) => axios.put<Property>(`/Properties/${property.id}`, property),
+    create: (property: CreateProperty) => axios.post<Property>(`/Properties`, property),
+    update: (property: CreateProperty) => axios.put<Property>(`/Properties/${property.id}`, property),
     del: (id: number) => axios.delete<void>(`/Properties/${id}`)
 };
 
 const UserFavorites = {
     list: () => requests.get<Property[]>('/UserFavorites'),
-    create: (addUserFavorite: AddUserFavoritesPayload) => axios.post<void>(`/UserFavorites`, addUserFavorite),
+    create: (addUserFavorite: AddUserFavoritesPayload) => axios.post<void>(`/UserFavorites?userId=${addUserFavorite.userId}&propertyId=${addUserFavorite.propertyId}`),
+    remove: (addUserFavorite: AddUserFavoritesPayload) => axios.delete<void>(`/UserFavorites?userId=${addUserFavorite.userId}&propertyId=${addUserFavorite.propertyId}`),
 }
 
 const agent = {

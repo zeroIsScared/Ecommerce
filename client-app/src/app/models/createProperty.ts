@@ -1,11 +1,10 @@
 import { Address } from "./address"
-import { Currency } from "./currency"
 import { Details } from "./details"
 import { Photo } from "./photo"
 import { User } from "./user"
 import { Utility } from "./utility"
 
-export interface Property {
+export interface CreateProperty {
 
     id: number
     title: string
@@ -13,8 +12,8 @@ export interface Property {
     price: number
     category: number
     transactionType: number
-    currency: Currency
-    user: User
+    currencyId: number
+    userId: number
     details: Details
     address: Address
     utilities: Utility[]

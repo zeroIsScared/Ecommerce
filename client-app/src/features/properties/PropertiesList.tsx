@@ -1,16 +1,30 @@
 import { Button, Card, CardContent, CardHeader, CardMeta, Image, Segment } from "semantic-ui-react";
-import { Properties } from "../../app/models/properties"
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "../../app/stores/store";
 import { Link } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
 
 
 
-export default function PropertiesList() {
+export default observer(function PropertiesList() {
     // const [target, setTarget] = useState('');
     const { propertyStore } = useStore();
-    const { properties } = propertyStore;
+    const { properties, addToUserFavorites } = propertyStore;
+
+    const [propertyIdToAdd, setPropertyIdToAdd] = useState<number | undefined>(undefined);
+
+    const handleAddToUserFavorite = (propertyId: number) => {
+        setPropertyIdToAdd(propertyId);
+    }
+
+    useEffect(() => {
+        if (propertyIdToAdd) {
+            addToUserFavorites({ userId: 3, propertyId: propertyIdToAdd });
+        }
+
+
+    }, [propertyIdToAdd, addToUserFavorites]);
 
     // function deleteProperty(id: number) {
     //     setSubmiting(true);
@@ -25,7 +39,7 @@ export default function PropertiesList() {
     //     setTarget(e.currentTarget.name);
     //     deleteProperty(id);
     // }    
-
+    const image = "../../../../public/assets/3BI78kU.jpg";
 
     return (
         <Segment>
@@ -33,20 +47,20 @@ export default function PropertiesList() {
                 {properties.map((property) => (
                     <Card key={property.id} clearing>
                         <CardContent>
-                            <Image src={property.photoURL}
+                            <Image src={image}
                             />
-                            <CardHeader>{property.title}</CardHeader>
-                            <CardMeta>{property.price} {property.currency} </CardMeta>
+                            <h3>{property.title}</h3>
+                            <CardMeta>Price: {property.price} {property.currency} </CardMeta>
                         </CardContent>
-                        <CardContent extra>
-                            <div className="ui three buttons">
-                                <Button as={Link} to={`/Properties/${property.id}`} standard color='olive' onClick={() => setSelectedPropertyId(property.id)}>
+                        <CardContent extra textAlign="center">
+                            <div className="ui small buttons">
+                                <Button as={Link} to={`/Properties/${property.id}`} standard color='olive'>
                                     View
                                 </Button>
                                 {/* <Button name={property.id} loading={submiting && target == `${property.id}`} basic color='orange'
                                     onClick={(e) => handlePropertyDelete(e, property.id)}> */}
-                                <Button>
-                                    Delete
+                                <Button standard color='orange' onClick={() => handleAddToUserFavorite(property.id)}>
+                                    Add to favorites
                                 </Button>
                             </div>
                         </CardContent>
@@ -55,4 +69,4 @@ export default function PropertiesList() {
             </Card.Group>
         </Segment >
     )
-}
+})

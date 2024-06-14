@@ -31,15 +31,17 @@ namespace Ecommerce.Application.UserFavorites.Commands
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await _userRepository.TryGetByIdOrThrowAsync(request.UserId);
-                var property = await _propertyRepository.TryGetByIdOrThrowAsync(request.PropertyId);
-                var userFavorite = new UserFavorite() { };
-                userFavorite.Property = property;
-                userFavorite.PropertyId = request.PropertyId;
-                userFavorite.UserId = request.UserId;
-                userFavorite.User = user;
+                
+                    var user = await _userRepository.TryGetByIdOrThrowAsync(request.UserId);
+                    var property = await _propertyRepository.TryGetByIdOrThrowAsync(request.PropertyId);
+                    var userFavorite = new UserFavorite() { };
+                    userFavorite.Property = property;
+                    userFavorite.PropertyId = request.PropertyId;
+                    userFavorite.UserId = request.UserId;
+                    userFavorite.User = user;
 
-                await _userFavoriteRepository.AddAsync(userFavorite);
+                    await _userFavoriteRepository.AddAsync(userFavorite);
+                         
 
                 _logger.LogInformation($"The property with id {request.PropertyId} was added to users favorites with id {request.UserId}.");
             }

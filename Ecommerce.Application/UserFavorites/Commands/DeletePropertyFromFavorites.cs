@@ -29,11 +29,12 @@ namespace Ecommerce.Application.UserFavorites.Commands
 
                 var userFavorites = _userFavoriteRepository.Read(false);
                 var favorite = userFavorites.
-                       Where(x => x.UserId == request.UserId && x.PropertyId == request.PropertyId).FirstOrDefault();
+                       FirstOrDefault(x => x.UserId == request.UserId && x.PropertyId == request.PropertyId);
                 
                 if (favorite != null)
                 {
                     favorite.IsDeleted = true;
+                    _userFavoriteRepository.SoftRemoveAsync(favorite.Id);
                 }
 
                 _logger.LogInformation($"The property with id {request.PropertyId} was deleted to users favorites with id {request.UserId}.");

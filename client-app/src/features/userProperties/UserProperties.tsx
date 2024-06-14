@@ -1,20 +1,22 @@
 import { Grid } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import { useEffect } from "react";
-import PropertiesList from "../properties/PropertiesList";
+import UserPropertiesList from "./UserPropertiesList";
+
 
 
 
 export default function PropertiesDashboard() {
     const { propertyStore } = useStore();
-    const { userProperties } = propertyStore;
 
-
+    useEffect(() => {
+        propertyStore.loadYourProperties()
+    }, [propertyStore]);
 
     return (
         <Grid padded>
             <Grid.Column width='12'>
-
+                <UserPropertiesList />
             </Grid.Column>
             <Grid.Column width='4'>
                 <h2>Property filters</h2>

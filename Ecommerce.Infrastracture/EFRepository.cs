@@ -63,7 +63,7 @@ namespace Ecommerce.Infrastracture
 
         public async Task SoftRemoveAsync(long id, CancellationToken cancellationToken = default)
         {
-            var entity = await _context.Set<T>().FirstAsync(x => x.Id == id);
+            var entity =  _context.Set<T>().First(x => x.Id == id);
             entity.IsDeleted = true;
             await _context.SaveChangesAsync(cancellationToken);
         }

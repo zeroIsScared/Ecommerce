@@ -1,13 +1,28 @@
 import { Button, Card, CardContent, CardHeader, CardMeta, Image, Segment } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import { Link } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
 
 
 
-export default function UserFavoritesList() {
+export default observer(function UserFavoritesList() {
+
     const { propertyStore } = useStore();
-    const { userFavorites } = propertyStore;
-    console.log(userFavorites);
+    const { deleteFromUserFavorites, userFavorites } = propertyStore;
+    const [propertyIdDeleted, setPropertyIdDeleted] = useState<number | undefined>(undefined);
+
+    const handleDeleteUserFavorite = (propertyId: number) => {
+        setPropertyIdDeleted(propertyId);
+    };
+
+    useEffect(() => {
+        if (propertyIdDeleted) {
+            deleteFromUserFavorites({ userId: 3, propertyId: propertyIdDeleted });
+        }
+    }, [propertyIdDeleted]);
+
+    if (userFavorites.length === 0) return <h1>No results were loaded!</h1>
 
     return (
         <Segment>
@@ -16,10 +31,7 @@ export default function UserFavoritesList() {
 
                     <Card key={favorite.property.id} clearing>
                         <CardContent>
-                            {favorite.property.photos.map(photo =>
-                                <Image src={photo.url}
-                                />
-                            )}
+                            <Image src={favorite.property.photoURL} />
                             <CardHeader>{favorite.property.title}</CardHeader>
                             <CardMeta>{`${favorite.property.price} ${favorite.property.currency.code}`}</CardMeta>
                         </CardContent>
@@ -28,9 +40,8 @@ export default function UserFavoritesList() {
                                 <Button as={Link} to={`/Properties/${favorite.propertyId}`} standard color='olive' >
                                     View
                                 </Button>
-
-                                <Button>
-                                    Delete
+                                <Button onClick={() => handleDeleteUserFavorite(favorite.property.id)}>
+                                    Delete from favorites
                                 </Button>
                             </div>
                         </CardContent>
@@ -39,6 +50,6 @@ export default function UserFavoritesList() {
             </Card.Group>
         </Segment >
     )
-}
+})
 
 

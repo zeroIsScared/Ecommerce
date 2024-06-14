@@ -17,6 +17,7 @@
     "@mui/material": "^5.15.19",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "axios": "^1.7.2",
+    "formik": "^2.4.6",
     "mobx": "^6.12.3",
     "mobx-persist-store": "^1.1.5",
     "mobx-react-lite": "^4.0.7",
@@ -25,13 +26,16 @@
     "react-dom": "^18.2.0",
     "react-image-gallery": "^1.3.0",
     "react-router-dom": "^6.23.1",
+    "react-select": "^5.8.0",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^3.0.0-beta.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
+    "@types/yup": "^0.32.0",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",

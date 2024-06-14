@@ -4,6 +4,8 @@ import { Property } from "../models/property";
 import agent from "../api/agent";
 import axios from "axios";
 import { GetUserFavorites } from "../models/getUserFavorite";
+import { AddUserFavoritesPayload } from "../models/addUserFavoritesPayload";
+import { CreateProperty } from "../models/createProperty";
 
 
 export default class PropertyStore {
@@ -12,6 +14,8 @@ export default class PropertyStore {
     userFavorites: GetUserFavorites[] = [];
     loading = false;
     loadingInitial = false;
+    yourProperties: Properties[] = [];
+    isSubmitting = false;
 
 
     constructor() {
@@ -30,6 +34,19 @@ export default class PropertyStore {
         }
     }
 
+    loadYourProperties = async () => {
+        this.setLoading(true);
+        try {
+            const properties = await agent.Properties.list();
+            const yourProperties = properties.filter(property => property.userId == 3);
+            this.setYourProperties(yourProperties);
+            this.setLoading(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoading(false);
+        }
+    }
+
     loadUserFavorites = async () => {
         this.setLoading(true);
         try {
@@ -42,49 +59,138 @@ export default class PropertyStore {
         }
     }
 
+    deleteFromUserFavorites = async (payload: AddUserFavoritesPayload) => {
+        this.setLoading(true);
+        try {
+            await agent.UserFavorites.remove(payload);
+            runInAction(() => {
+                this.setUserFavorites(this.userFavorites.filter(x => x.propertyId !== payload.propertyId));
+                this.setLoading(false);
+            })
+        } catch (error) {
+            console.log(error);
+            this.setLoading(false);
+        }
+    }
+
+    addToUserFavorites = async (payload: AddUserFavoritesPayload) => {
+        this.setLoading(true);
+        try {
+            await agent.UserFavorites.create(payload);
+            runInAction(() => {
+                const newFavorite = this.properties.find(property => property.id === payload.propertyId);
+                this.userFavorites.push({
+                    userId: payload.userId,
+                    propertyId: payload.propertyId!,
+                    property: newFavorite!
+                });
+                this.setLoading(false);
+            })
+        } catch (error) {
+            console.log(error);
+            this.setLoading(false);
+        }
+    }
+
     loadSelectedProperty = async (id: string) => {
         this.setLoading(true);
         try {
             const property: Property = await agent.Properties.details(id);
-            this.setSelectedProperty(property);
+            runInAction(() => {
+                this.setSelectedProperty(property);
+            })
             this.setLoading(false);
+            return property;
         } catch (error) {
             console.log(error);
             this.setLoading(false);
         }
     }
 
-    deleteActivity = async (id: number) => {
-        this.setLoadingInitial(true);
+    cancelSelectedProperty = () => {
+        this.setSelectedProperty(undefined);
+    }
+
+    deleteProperty = async (id: number) => {
         this.setLoading(true);
         try {
             await agent.Properties.del(id);
             runInAction(() => {
-                this.properties.filter(x => x.id !== id);
+                this.properties = [...this.properties.filter(x => x.id !== id)];
+                if (this.selectedProperty?.id === id) this.cancelSelectedProperty();
                 this.setLoading(false);
-                this.setLoadingInitial(true);
             })
         } catch (error) {
             console.log(error);
             runInAction(() => {
                 this.setLoading(false);
-                this.setLoadingInitial(true);
             })
         }
     }
 
-    // setUserProperties = (id: number) => {
-    //     this.userProperties.filter(x => x.userId == id);
-    // }
+    createProperty = async (property: CreateProperty) => {
+        this.loading = true;
+
+        try {
+            const newProperty = (await agent.Properties.create(property)).data;
+            runInAction(() => {
+                this.properties.push({
+                    id: newProperty.id,
+                    title: newProperty.title,
+                    price: newProperty.price,
+                    currency: newProperty.currency.code,
+                    photoURL: newProperty.photos[0].url,
+                    userId: newProperty.user.id
+                });
+                this.selectedProperty = newProperty;
+                this.loading = false;
+            })
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.loading = false;
+            })
+        }
+    }
+
+    updateProperty = async (property: CreateProperty) => {
+        this.loading = true;
+        try {
+            const newProperty = (await agent.Properties.update(property)).data;
+            runInAction(() => {
+                this.properties = [...this.properties.filter(x => x.id !== newProperty.id), {
+                    id: newProperty.id,
+                    title: newProperty.title,
+                    price: newProperty.price,
+                    currency: newProperty.currency.code,
+                    photoURL: newProperty.photos[0].url,
+                    userId: newProperty.user.id
+                }];
+                this.selectedProperty = newProperty;
+                this.loading = false;
+            })
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.loading = false;
+            })
+        }
+    }
+
     setUserFavorites = (favorites: GetUserFavorites[]) => {
         this.userFavorites = favorites;
     }
 
-    setSelectedProperty = (property: Property) => {
+    setSelectedProperty = (property: Property | undefined) => {
         this.selectedProperty = property;
     }
+
     setProperties = (properties: Properties[]) => {
         this.properties = properties;
+    }
+
+    setYourProperties = (properties: Properties[]) => {
+        this.yourProperties = properties;
     }
 
     setLoadingInitial = (state: boolean) => {
@@ -94,8 +200,6 @@ export default class PropertyStore {
     setLoading = (state: boolean) => {
         this.loading = state;
     }
-
-
 
 }
 

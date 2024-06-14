@@ -1,4 +1,4 @@
 export interface AddUserFavoritesPayload {
     userId: number,
-    propertyId: number
+    propertyId: number | undefined
 }

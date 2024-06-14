@@ -1,21 +1,24 @@
-import { Container, Grid } from "semantic-ui-react";
+
 import { useStore } from "../../app/stores/store";
-import { useEffect } from "react";
-import PropertiesList from "../properties/PropertiesList";
+import { useEffect, useState } from "react";
 import UserFavoritesList from "./UserFavoritesList";
-import propertyStore from "../../app/stores/propertyStore";
 import { observer } from "mobx-react-lite";
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import { Grid } from "semantic-ui-react";
 
 export default observer(function UserFavorites() {
     const { propertyStore } = useStore();
-    const { loadUserFavorites } = propertyStore;
+    const { userFavorites, loading, deleteFromUserFavorites } = propertyStore;
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-
-
         propertyStore.loadUserFavorites();
-    }, [loadUserFavorites, propertyStore]);
+
+    }, [propertyStore, deleteFromUserFavorites]);
+
+    if (loading == true) return <LoadingComponent content={'Loading favorites properties'} />
+
+    if (loading == false && userFavorites.length === 0) return <h1>No results were loaded!</h1>
 
     return (
         <Grid padded>
@@ -25,7 +28,6 @@ export default observer(function UserFavorites() {
             <Grid.Column width='4'>
                 <h2>Property filters</h2>
             </Grid.Column>
-
         </Grid>
     )
 })

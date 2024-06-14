@@ -35,7 +35,7 @@ namespace Ecommerce.Application.UserFavorites.Queries
 
             public async Task<List<GetUserFavoritesDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var userFavorites = await _userFavoriteRepository.Read(true)
+                var userFavorites = await _userFavoriteRepository.Read(false)
                     .Include(x => x.Property)
                         .ThenInclude(x => x.Currency)
                     .Include(x => x.Property)

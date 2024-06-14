@@ -9,7 +9,7 @@ namespace Ecommerce.Domain.Enums
     {
         [Description("Covert Parking")]
         CovertParking = 1,
-        [Description("Grage Parking")]
+        [Description("Garage Parking")]
         GarageParking,
         [Description("Street Parking")]
         StreetParking,
