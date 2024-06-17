@@ -29,12 +29,9 @@ namespace Ecommerce.Application.Properties.Commands
 
             public async Task<CreateOrUpdatePropertyDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                await _repository.ExistsOrThrowsAsync((long)request.RealEstate.Id!, cancellationToken);
-
-                //var initialProperty = await _repository.TryGetByIdOrThrowAsync(request.RealEstate.Id, cancellationToken).;
+                await _repository.ExistsOrThrowsAsync((long)request.RealEstate.Id!, cancellationToken);                
             
-                var realEstate = _mapper.Map<Property>(request.RealEstate);
-               // realEstate.AddressId = initialProperty.AddressId;
+                var realEstate = _mapper.Map<Property>(request.RealEstate);             
 
                 var property = await _repository.UpdateAsync(realEstate, cancellationToken);
 

@@ -18,23 +18,23 @@ interface ImageArray {
 export default observer(function PropertiesDetails() {
 
     const { propertyStore } = useStore();
-    const { selectedProperty, loading, loadSelectedProperty, deleteProperty, addToUserFavorites, userFavorites } = propertyStore;
+    const { selectedProperty, loading, loadSelectedProperty,
+        deleteProperty, addToUserFavorites, userFavorites, yourProperties } = propertyStore;
     const { id } = useParams();
     const navigate = useNavigate();
     const [target, setTarget] = useState('');
     const [propertyIdToAdd, setPropertyIdToAdd] = useState<number | undefined>(undefined);
 
-
+    const isFavorite = userFavorites.find(property => property.propertyId === Number(id));
+    const isUsersProperty = yourProperties.find(property => property.id === Number(id));
     const handleAddToUserFavorite = (propertyId: number) => {
         setPropertyIdToAdd(propertyId);
-        console.log()
     }
 
     useEffect(() => {
         if (propertyIdToAdd && !userFavorites.find(x => x.propertyId == propertyIdToAdd)) {
             addToUserFavorites({ userId: 3, propertyId: propertyIdToAdd });
         }
-
     }, [propertyIdToAdd, addToUserFavorites, userFavorites]);
 
     useEffect(() => {
@@ -115,9 +115,14 @@ export default observer(function PropertiesDetails() {
                     </CardContent>
                     <Card.Content extra >
                         <Button as={Link} to={'/'} standard color='grey' content='Back' />
-                        <Button as={Link} to={`/manage/${Number(id)}`} standard color='olive' content='Edit' />
-                        <Button standards color='orange' content='Add to favorites' onClick={() => handleAddToUserFavorite(Number(id))} />
-                        <Button standards color='red' content='Delete' onClick={(e) => handleDeleteProperty(e, Number(id))} />
+                        {!isFavorite &&
+                            <Button standards color='orange' content='Add to favorites' onClick={() => handleAddToUserFavorite(Number(id))} />}
+                        {isUsersProperty && (
+                            <>
+                                <Button as={Link} to={`/editProperty/${Number(id)}`} standard color='olive' content='Edit' />
+                                <Button standards color='red' content='Delete' onClick={(e) => handleDeleteProperty(e, Number(id))} />
+                            </>
+                        )}
                     </Card.Content>
                 </Card>
             </Grid.Column>
