@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import UserFavoritesList from "./UserFavoritesList";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Grid } from "semantic-ui-react";
+import { Grid, Segment } from "semantic-ui-react";
 
 export default observer(function UserFavorites() {
     const { propertyStore } = useStore();
@@ -22,11 +22,8 @@ export default observer(function UserFavorites() {
 
     return (
         <Grid padded>
-            <Grid.Column width='12'>
+            <Grid.Column width='16'>
                 <UserFavoritesList />
-            </Grid.Column>
-            <Grid.Column width='4'>
-                <h2>Property filters</h2>
             </Grid.Column>
         </Grid>
     )

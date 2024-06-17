@@ -125,7 +125,6 @@ export default observer(function PropertyFrom() {
             }]
         };
 
-
         console.log(submitingProperty);
         if (id) {
             //submitingProperty.currencyId = currencyId;
@@ -134,7 +133,7 @@ export default observer(function PropertyFrom() {
         }
         else {
             await createProperty(submitingProperty);
-            navigate(`/Properties/${selectedProperty?.id}`);
+            if (selectedProperty) navigate(`/Properties/${selectedProperty?.id}`);
         }
     }
 

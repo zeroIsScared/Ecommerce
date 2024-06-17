@@ -3,7 +3,7 @@ import App from "../layout/App";
 import PropertiesDashboard from "../../features/properties/PropertiesDashboard";
 import UserProperties from "../../features/userProperties/UserProperties";
 import PropertyForm from "../../features/properties/form/PropertyForm";
-import UserFavorites from "../../features/userFavorites/UserFAvorites";
+import UserFavorites from "../../features/userFavorites/UserFavorites";
 import PropertiesDetails from "../../features/properties/details/PropertiesDetails";
 
 export const routes: RouteObject[] = [
@@ -16,7 +16,7 @@ export const routes: RouteObject[] = [
             { path: 'createProperty', element: <PropertyForm key='create' /> },
             { path: 'userFavorites', element: <UserFavorites /> },
             { path: 'Properties/:id', element: <PropertiesDetails /> },
-            { path: 'manage/:id', element: <PropertyForm key='manage' /> },
+            { path: 'editProperty/:id', element: <PropertyForm key='manage' /> },
         ]
     },
 ]

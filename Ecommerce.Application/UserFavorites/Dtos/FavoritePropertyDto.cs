@@ -16,7 +16,7 @@ namespace Ecommerce.Application.UserFavorites.Dtos
         public TransactionType TransactionType { get; set; }
         public CurrencyDto Currency { get; set; } = default!;       
         public PropertyDetailsDto Details { get; set; } = default!;
-        public AddressDto Address { get; set; } = default!;
+        public GetAddressDto Address { get; set; } = default!;
         public ICollection<PropertyUtilityDto> Utilities { get; set; } = default!;
         public ICollection<PhotoDto> Photos { get; set; } = default!;
     }

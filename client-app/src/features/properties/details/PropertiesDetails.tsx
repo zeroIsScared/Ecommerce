@@ -18,11 +18,24 @@ interface ImageArray {
 export default observer(function PropertiesDetails() {
 
     const { propertyStore } = useStore();
-    const { selectedProperty, loading, loadSelectedProperty, deleteProperty } = propertyStore;
+    const { selectedProperty, loading, loadSelectedProperty, deleteProperty, addToUserFavorites, userFavorites } = propertyStore;
     const { id } = useParams();
     const navigate = useNavigate();
-
     const [target, setTarget] = useState('');
+    const [propertyIdToAdd, setPropertyIdToAdd] = useState<number | undefined>(undefined);
+
+
+    const handleAddToUserFavorite = (propertyId: number) => {
+        setPropertyIdToAdd(propertyId);
+        console.log()
+    }
+
+    useEffect(() => {
+        if (propertyIdToAdd && !userFavorites.find(x => x.propertyId == propertyIdToAdd)) {
+            addToUserFavorites({ userId: 3, propertyId: propertyIdToAdd });
+        }
+
+    }, [propertyIdToAdd, addToUserFavorites, userFavorites]);
 
     useEffect(() => {
         if (id) loadSelectedProperty(id)
@@ -31,9 +44,8 @@ export default observer(function PropertiesDetails() {
     const handleDeleteProperty = async (e: SyntheticEvent<HTMLButtonElement>, id: number) => {
         setTarget(e.currentTarget.name);
         await deleteProperty(id);
-        navigate(`/`);
+        navigate(`/userProperties`);
     }
-
 
     const images1: ImageArray[] = [
         {
@@ -103,8 +115,8 @@ export default observer(function PropertiesDetails() {
                     </CardContent>
                     <Card.Content extra >
                         <Button as={Link} to={'/'} standard color='grey' content='Back' />
-                        <Button as={Link} to={`/manage/${selectedProperty?.id}`} standard color='olive' content='Edit' />
-                        <Button standards color='orange' content='Add to favorites' />
+                        <Button as={Link} to={`/manage/${Number(id)}`} standard color='olive' content='Edit' />
+                        <Button standards color='orange' content='Add to favorites' onClick={() => handleAddToUserFavorite(Number(id))} />
                         <Button standards color='red' content='Delete' onClick={(e) => handleDeleteProperty(e, Number(id))} />
                     </Card.Content>
                 </Card>

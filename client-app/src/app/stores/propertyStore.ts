@@ -38,7 +38,7 @@ export default class PropertyStore {
         this.setLoading(true);
         try {
             const properties = await agent.Properties.list();
-            const yourProperties = properties.filter(property => property.userId == 3);
+            const yourProperties = properties.filter(property => property.userId == 1);
             this.setYourProperties(yourProperties);
             this.setLoading(false);
         } catch (error) {
@@ -50,7 +50,7 @@ export default class PropertyStore {
     loadUserFavorites = async () => {
         this.setLoading(true);
         try {
-            const favorites: GetUserFavorites[] = (await axios.get(`http://localhost:5172/api/UserFavorites/${3}`)).data;
+            const favorites: GetUserFavorites[] = (await axios.get(`http://localhost:5172/api/UserFavorites/${1}`)).data;
             this.setUserFavorites(favorites);
             this.setLoading(false);
         } catch (error) {
@@ -79,11 +79,13 @@ export default class PropertyStore {
             await agent.UserFavorites.create(payload);
             runInAction(() => {
                 const newFavorite = this.properties.find(property => property.id === payload.propertyId);
-                this.userFavorites.push({
-                    userId: payload.userId,
-                    propertyId: payload.propertyId!,
-                    property: newFavorite!
-                });
+                if (!this.userFavorites.find(x => x.propertyId === newFavorite?.id)) {
+                    this.userFavorites.push({
+                        userId: payload.userId,
+                        propertyId: payload.propertyId!,
+                        property: newFavorite!
+                    });
+                }
                 this.setLoading(false);
             })
         } catch (error) {
@@ -117,6 +119,7 @@ export default class PropertyStore {
             await agent.Properties.del(id);
             runInAction(() => {
                 this.properties = [...this.properties.filter(x => x.id !== id)];
+                this.yourProperties = [...this.properties.filter(x => x.id !== id)];
                 if (this.selectedProperty?.id === id) this.cancelSelectedProperty();
                 this.setLoading(false);
             })
@@ -142,13 +145,14 @@ export default class PropertyStore {
                     photoURL: newProperty.photos[0].url,
                     userId: newProperty.user.id
                 });
-                this.selectedProperty = newProperty;
-                this.loading = false;
+
+                if (newProperty) this.setSelectedProperty(newProperty);
             })
         } catch (error) {
             console.log(error);
             runInAction(() => {
                 this.loading = false;
+                this.setSelectedProperty(undefined);
             })
         }
     }

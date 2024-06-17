@@ -113,14 +113,14 @@ namespace ECommerce.UnitTest
             //Arrange
             _repository.Setup(x => x.AddAsync(It.IsAny<Property>(), It.IsAny<CancellationToken>())).ReturnsAsync(new Property());
             var logger = new Mock<ILogger<CreateProperty.Handler>>();
-            var command = new CreateProperty.Command { RealEstate = _mapper.Map<CreatePropertyDto>(_property)};
+            var command = new CreateProperty.Command { RealEstate = _mapper.Map<CreateOrUpdatePropertyDto>(_property)};
             var handler = new CreateProperty.Handler(_repository.Object, _mapper, logger.Object);
 
             //Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             //Assert
-            Assert.IsInstanceOf<CreatePropertyDto>(result);       
+            Assert.IsInstanceOf<CreateOrUpdatePropertyDto>(result);       
             Assert.IsNotNull(result);
         }
 
@@ -150,7 +150,7 @@ namespace ECommerce.UnitTest
             //Arrange
             _repository.Setup(x => x.UpdateAsync(It.IsAny<Property>(), It.IsAny<CancellationToken>())).ReturnsAsync(_propertyList[1]);
             var logger = new Mock<ILogger<EditProperty.Handler>>();         
-            var command = new EditProperty.Command {  RealEstate = _mapper.Map<CreatePropertyDto>(_propertyList[1]) };
+            var command = new EditProperty.Command {  RealEstate = _mapper.Map<CreateOrUpdatePropertyDto>(_propertyList[1]) };
             var handler = new EditProperty.Handler(_repository.Object, _mapper, logger.Object);
            
             //Act            
@@ -158,7 +158,7 @@ namespace ECommerce.UnitTest
 
             //Assert          
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<CreatePropertyDto>(result);
+            Assert.IsInstanceOf<CreateOrUpdatePropertyDto>(result);
         }
     }
 }

@@ -79,9 +79,15 @@ namespace Ecommerce.Infrastracture
         }
 
         public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
-        {           
-            _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync(cancellationToken);  
+        {   
+            //var current = await _context.Set<T>().FirstAsync(x => x.Id == entity.Id);
+           
+           _context.Entry(entity).State = EntityState.Modified;
+          
+               // _context.Entry(current).CurrentValues.SetValues(entity);
+                await _context.SaveChangesAsync(cancellationToken);
+            
+            
             return entity;
         }        
 

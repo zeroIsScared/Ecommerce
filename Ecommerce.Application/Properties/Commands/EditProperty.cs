@@ -9,12 +9,12 @@ namespace Ecommerce.Application.Properties.Commands
 {
     public class EditProperty
     {
-        public class Command : IRequest<CreatePropertyDto>
+        public class Command : IRequest<CreateOrUpdatePropertyDto>
         {
-            public required CreatePropertyDto RealEstate { get; set; }
+            public required CreateOrUpdatePropertyDto RealEstate { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, CreatePropertyDto>
+        public class Handler : IRequestHandler<Command, CreateOrUpdatePropertyDto>
         {
             private readonly IRepository<Property> _repository;
             private readonly IMapper _mapper;
@@ -27,15 +27,18 @@ namespace Ecommerce.Application.Properties.Commands
                 _logger = logger;
             }
 
-            public async Task<CreatePropertyDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<CreateOrUpdatePropertyDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 await _repository.ExistsOrThrowsAsync((long)request.RealEstate.Id!, cancellationToken);
+
+                //var initialProperty = await _repository.TryGetByIdOrThrowAsync(request.RealEstate.Id, cancellationToken).;
             
                 var realEstate = _mapper.Map<Property>(request.RealEstate);
+               // realEstate.AddressId = initialProperty.AddressId;
 
                 var property = await _repository.UpdateAsync(realEstate, cancellationToken);
 
-                var updatedProperty = _mapper.Map<CreatePropertyDto>(property);              
+                var updatedProperty = _mapper.Map<CreateOrUpdatePropertyDto>(property);              
               
                 
                 _logger.LogInformation($"Property with id {request.RealEstate.Id} was updated.");

@@ -59,6 +59,75 @@ namespace Ecommerce.Infrastracture.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("Ecommerce.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("Ecommerce.Domain.Entities.Currency", b =>
                 {
                     b.Property<long>("Id")
@@ -96,7 +165,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         {
                             Id = 1L,
                             Code = "MDL",
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 800, DateTimeKind.Unspecified).AddTicks(841), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 21, DateTimeKind.Unspecified).AddTicks(5178), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false
                         },
@@ -104,7 +173,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         {
                             Id = 2L,
                             Code = "EUR",
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 801, DateTimeKind.Unspecified).AddTicks(5787), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(415), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Symbol = "€"
@@ -113,7 +182,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         {
                             Id = 3L,
                             Code = "USD",
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 801, DateTimeKind.Unspecified).AddTicks(5924), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(541), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Symbol = "$"
@@ -152,7 +221,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(2981), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7488), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Mun. Chișinău"
@@ -160,7 +229,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3176), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7677), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Mun. Bălți"
@@ -168,7 +237,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3179), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7681), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Mun. Bender"
@@ -176,7 +245,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3180), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7682), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Anenii Noi"
@@ -184,7 +253,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3182), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7684), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Basarabeasca"
@@ -192,7 +261,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 6L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3214), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7689), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Briceni"
@@ -200,7 +269,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3215), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7690), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Cahul"
@@ -208,7 +277,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3217), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7691), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Camenca"
@@ -216,7 +285,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3218), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7693), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Călărași"
@@ -224,7 +293,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3221), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7695), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Cantemir"
@@ -232,7 +301,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 11L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3222), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7696), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Căușeni"
@@ -240,7 +309,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 12L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3223), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7698), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Cimișlia"
@@ -248,7 +317,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 13L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3225), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7699), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Criuleni"
@@ -256,7 +325,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 14L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3226), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7700), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Dondușeni"
@@ -264,7 +333,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 15L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3227), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7701), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Drochia"
@@ -272,7 +341,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 16L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3229), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7703), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Dubăsari"
@@ -280,7 +349,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 17L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3230), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7704), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Edineț"
@@ -288,7 +357,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 18L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3232), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7706), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Fălești"
@@ -296,7 +365,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 19L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3233), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7707), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Florești"
@@ -304,7 +373,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 20L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3235), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7709), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Glodeni"
@@ -312,7 +381,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 21L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3236), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7710), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Hîncești"
@@ -320,7 +389,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 22L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3237), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7711), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Ialoveni"
@@ -328,7 +397,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 23L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3239), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7713), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Leova"
@@ -336,7 +405,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 24L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3240), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7714), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Nisporeni"
@@ -344,7 +413,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 25L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3241), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7715), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Ocnița"
@@ -352,7 +421,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 26L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3243), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7716), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Orhei"
@@ -360,7 +429,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 27L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3244), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7745), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Rezina"
@@ -368,7 +437,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 28L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3245), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7747), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Rîșcani"
@@ -376,7 +445,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 29L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3247), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7748), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Sîngerei"
@@ -384,7 +453,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 30L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3248), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7750), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Soroca"
@@ -392,7 +461,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 31L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3249), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7751), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Strășeni"
@@ -400,7 +469,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 32L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3250), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7753), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Șoldănești"
@@ -408,7 +477,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 33L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3252), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7754), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Ștefan Vodă"
@@ -416,7 +485,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 34L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3254), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7756), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Taraclia"
@@ -424,7 +493,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 35L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3255), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7757), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Telenești"
@@ -432,7 +501,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 36L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 802, DateTimeKind.Unspecified).AddTicks(3257), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 23, DateTimeKind.Unspecified).AddTicks(7759), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             IsDeleted = false,
                             Name = "Ungheni"
@@ -480,7 +549,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2218), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6408), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -489,7 +558,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2469), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6670), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -498,7 +567,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2472), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6673), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -507,7 +576,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2473), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6674), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -516,7 +585,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2475), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6676), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -525,7 +594,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 6L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2478), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6678), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -534,7 +603,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2479), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6680), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -543,7 +612,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2481), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6681), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -552,7 +621,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2482), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6683), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -561,7 +630,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2484), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6685), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -570,7 +639,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 11L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2486), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6686), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -579,7 +648,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 12L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2487), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6687), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -588,7 +657,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 13L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2489), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6689), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -597,7 +666,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 14L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2490), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6690), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -606,7 +675,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 15L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2492), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6692), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -615,7 +684,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 16L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2493), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6693), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -624,7 +693,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 17L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2494), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6694), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -633,7 +702,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 18L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2502), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6696), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -642,7 +711,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 19L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2504), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6698), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -651,7 +720,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 20L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2505), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6699), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -660,7 +729,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 21L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2507), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6701), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -669,7 +738,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 22L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2508), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6702), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -678,7 +747,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 23L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2510), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6703), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -687,7 +756,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 24L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2511), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6705), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -696,7 +765,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 25L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2512), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6706), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -705,7 +774,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 26L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2514), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6707), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -714,7 +783,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 27L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2515), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6709), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -723,7 +792,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 28L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2516), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6710), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -732,7 +801,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 29L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2518), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6712), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -741,7 +810,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 30L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2519), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6713), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -750,7 +819,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 31L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2521), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6714), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -759,7 +828,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 32L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2543), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6721), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -768,7 +837,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 33L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2545), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6723), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -777,7 +846,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 34L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2547), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6725), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -786,7 +855,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 35L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2548), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6727), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 1L,
                             IsDeleted = false,
@@ -795,7 +864,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 36L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2550), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6728), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 2L,
                             IsDeleted = false,
@@ -804,7 +873,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 37L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2551), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6730), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 2L,
                             IsDeleted = false,
@@ -813,7 +882,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 38L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2553), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6731), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 2L,
                             IsDeleted = false,
@@ -822,7 +891,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 39L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2554), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6732), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 3L,
                             IsDeleted = false,
@@ -831,7 +900,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 40L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2555), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6734), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 3L,
                             IsDeleted = false,
@@ -840,7 +909,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 41L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2557), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6735), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -849,7 +918,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 42L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2558), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6736), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -858,7 +927,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 43L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2560), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6738), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -867,7 +936,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 44L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2561), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6739), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -876,7 +945,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 45L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2562), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6741), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -885,7 +954,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 46L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2564), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6742), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -894,7 +963,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 47L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2565), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6764), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -903,7 +972,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 48L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2567), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6766), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -912,7 +981,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 49L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2573), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6767), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -921,7 +990,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 50L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2575), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6769), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -930,7 +999,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 51L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2576), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6770), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -939,7 +1008,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 52L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2578), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6772), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -948,7 +1017,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 53L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2579), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6773), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -957,7 +1026,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 54L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2581), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6774), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -966,7 +1035,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 55L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2582), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6776), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -975,7 +1044,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 56L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2583), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6777), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -984,7 +1053,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 57L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2585), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6778), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -993,7 +1062,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 58L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2586), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6780), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1002,7 +1071,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 59L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2588), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6781), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1011,7 +1080,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 60L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2589), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6783), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1020,7 +1089,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 61L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2590), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6784), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1029,7 +1098,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 62L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2592), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6785), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1038,7 +1107,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 63L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2593), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6787), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1047,7 +1116,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 64L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2594), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6788), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1056,7 +1125,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 65L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2596), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6790), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1065,7 +1134,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 66L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2598), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6792), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1074,7 +1143,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 67L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2600), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6793), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1083,7 +1152,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 68L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2601), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6795), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1092,7 +1161,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 69L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2602), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6796), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1101,7 +1170,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 70L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2604), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6797), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1110,7 +1179,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 71L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2605), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6799), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1119,7 +1188,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 72L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2606), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6800), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1128,7 +1197,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 73L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2608), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6802), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1137,7 +1206,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 74L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2609), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6803), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1146,7 +1215,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 75L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2611), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6804), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1155,7 +1224,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 76L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2612), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6806), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1164,7 +1233,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 77L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2613), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6807), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1173,7 +1242,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 78L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2615), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6808), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1182,7 +1251,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 79L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2616), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6810), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1191,7 +1260,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 80L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2618), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6811), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1200,7 +1269,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 81L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2619), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6813), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1209,7 +1278,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 82L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2620), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6814), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1218,7 +1287,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 83L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2622), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6815), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1227,7 +1296,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 84L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2623), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6817), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1236,7 +1305,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 85L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(2624), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 24, DateTimeKind.Unspecified).AddTicks(6818), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             DistrictId = 4L,
                             IsDeleted = false,
@@ -1545,7 +1614,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5518), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(57), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
@@ -1556,7 +1625,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5888), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(421), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
@@ -1567,7 +1636,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5891), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(425), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
@@ -1578,7 +1647,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5893), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(427), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
@@ -1589,7 +1658,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5895), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(428), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
@@ -1600,7 +1669,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 6L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5898), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(432), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
@@ -1611,7 +1680,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5900), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(434), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = true,
@@ -1622,7 +1691,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5901), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(435), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
@@ -1633,7 +1702,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5903), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(437), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
@@ -1644,7 +1713,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5905), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(469), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = true,
                             ForHouse = false,
@@ -1655,7 +1724,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 11L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5906), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(471), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
@@ -1666,7 +1735,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 12L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5982), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(553), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
@@ -1677,7 +1746,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 13L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5985), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(556), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
@@ -1688,7 +1757,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 14L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5986), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(558), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
@@ -1699,7 +1768,7 @@ namespace Ecommerce.Infrastracture.Migrations
                         new
                         {
                             Id = 15L,
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 5, 23, 5, 28, 19, 803, DateTimeKind.Unspecified).AddTicks(5988), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 6, 14, 16, 55, 0, 25, DateTimeKind.Unspecified).AddTicks(559), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedBy = "Admin",
                             ForAppartment = false,
                             ForHouse = true,
@@ -1709,10 +1778,143 @@ namespace Ecommerce.Infrastracture.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
             modelBuilder.Entity("Ecommerce.Domain.Entities.Address", b =>
                 {
                     b.HasOne("Ecommerce.Domain.Entities.Locality", "Locality")
-                        .WithMany("Properties")
+                        .WithMany("Addresses")
                         .HasForeignKey("LocalityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1818,6 +2020,57 @@ namespace Ecommerce.Infrastracture.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Ecommerce.Domain.Entities.Address", b =>
                 {
                     b.Navigation("Properties");
@@ -1835,7 +2088,7 @@ namespace Ecommerce.Infrastracture.Migrations
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Locality", b =>
                 {
-                    b.Navigation("Properties");
+                    b.Navigation("Addresses");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Property", b =>

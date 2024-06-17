@@ -1,15 +1,13 @@
 ﻿
 
 using AutoMapper;
-using Ecommerce.Application.Core;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Properties.Dtos;
-using Ecommerce.Application.Users.Dtos;
 using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+
 
 namespace Ecommerce.Application.Properties.Queries
 {
