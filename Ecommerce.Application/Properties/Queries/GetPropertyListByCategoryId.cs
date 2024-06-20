@@ -44,7 +44,8 @@ namespace Ecommerce.Application.Properties.Queries
                       Title = x.Title,
                       Currency = x.Currency.Symbol ?? x.Currency.Code,
                       Price = x.Price,
-                      PhotoURL = x.Photos.First().URL
+                      PhotoURL = x.Photos.First().URL,
+                      UserId = x.UserId
                   })
                   .ToListAsync(cancellationToken);
 

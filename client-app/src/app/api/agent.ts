@@ -3,7 +3,9 @@ import { Properties } from '../models/properties';
 import { Property } from '../models/property';
 import { AddUserFavoritesPayload } from '../models/addUserFavoritesPayload';
 import { CreateProperty } from '../models/createProperty';
-
+import { District } from '../models/district';
+import { Locality } from '../models/locality';
+import { getUtility } from '../models/getUtility';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -11,9 +13,13 @@ const sleep = (delay: number) => {
     })
 }
 
+// eslint-disable-next-line react-hooks/rules-of-hooks
+//const token = localStorage.getItem("accessToken");
 axios.defaults.baseURL = 'http://localhost:5172/api';
+//axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` }
 
-axios.interceptors.response.use(async response => {
+axios.interceptors.response.use(async (response) => {
+
     try {
         await sleep(1000);
         return response;
@@ -21,7 +27,7 @@ axios.interceptors.response.use(async response => {
         console.log(error);
         return await Promise.reject(error);
     }
-})
+});
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -35,6 +41,7 @@ const requests = {
 
 const Properties = {
     list: () => requests.get<Properties[]>('/Properties'),
+    filter: (id: string | number | undefined) => requests.get<Properties[]>(`/Properties/category/${id}`,),
     details: (id: string | undefined) => requests.get<Property>(`/Properties/${id}`),
     create: (property: CreateProperty) => axios.post<Property>(`/Properties`, property),
     update: (property: CreateProperty) => axios.put<Property>(`/Properties/${property.id}`, property),
@@ -47,9 +54,24 @@ const UserFavorites = {
     remove: (addUserFavorite: AddUserFavoritesPayload) => axios.delete<void>(`/UserFavorites?userId=${addUserFavorite.userId}&propertyId=${addUserFavorite.propertyId}`),
 }
 
+const Districts = {
+    list: () => requests.get<District[]>('/Districts'),
+}
+
+const Localities = {
+    list: (id: number) => requests.get<Locality[]>(`/Localities/${id}`),
+}
+
+const Utilities = {
+    list: (id: number) => requests.get<getUtility[]>(`/Utilities/${id}`),
+}
+
 const agent = {
     Properties,
-    UserFavorites
+    UserFavorites,
+    Districts,
+    Localities,
+    Utilities
 }
 
 export default agent;

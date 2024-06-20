@@ -1,18 +1,16 @@
-import { Button, FormGroup, Grid, Header, Segment } from "semantic-ui-react"
+import { Button, Checkbox, FormCheckbox, FormField, FormGroup, Grid, Segment } from "semantic-ui-react"
 import { Property } from "../../../app/models/property";
 import { useStore } from "../../../app/stores/store";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import { Currency } from "../../../app/models/currency";
-import { Details } from "../../../app/models/details";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import MytextInput from "../../../app/layout/components/form/MyTextInput";
 import MyTextArea from "../../../app/layout/components/form/MyTextArea";
 import MySelectInput from "../../../app/layout/components/form/MySelectInput";
 import { authorTypeOptions } from "../../../app/layout/components/options/authorTypeOptions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { transactionTypeOptions } from "../../../app/layout/components/options/transactionTypeOptions";
 import { propertyCategoryOptions } from "../../../app/layout/components/options/propertyCategoryOptions";
 import { propertyStateOptions } from "../../../app/layout/components/options/propertyStateOptions";
@@ -24,11 +22,64 @@ import { CreateProperty } from "../../../app/models/createProperty";
 
 export default observer(function PropertyFrom() {
     const { propertyStore } = useStore();
-    const { loading, selectedProperty, updateProperty, createProperty } = propertyStore;
+    const { loading, selectedProperty, updateProperty, createProperty,
+        loadDistricts, loadLocalities, loadUtilities, localities,
+        utilities, districts } = propertyStore;
     const { id } = useParams();
     const navigate = useNavigate();
+    const [district, setDistrict] = useState<{ id: number, name: string } | undefined>(undefined);
+    const [locality, setLocality] = useState<{ id: number, name: string } | undefined>(undefined);
+    const [propertyCategory, setPropertyCategory] = useState<{ label: string | undefined, value: number } | undefined>(undefined);
+    const [utilitiesSelected, setUtilitiesSelected] = useState<{ utilityId: number }[]>([]);
 
-    console.log(selectedProperty);
+    useEffect(() => {
+        loadDistricts();
+    }, [loadDistricts]);
+
+    useEffect(() => {
+        if (district?.id) {
+            loadLocalities(district.id);
+        }
+    }, [setDistrict, district]);
+
+    const handleDistrcitChange = (e) => {
+        const district = districts.find(x => x.name == e.target.value);
+        setDistrict(district);
+    }
+
+    const handleLocalityChange = (e) => {
+        const locality = localities.find(x => x.name == e.target.value);
+        setLocality(locality);
+    }
+
+    const handlePropertyCategoryChange = (e) => {
+        const propertyCategoryId = (Number(e.target.value) + 1);
+        const propertyCategory = propertyCategoryOptions.find(x => x.value === (propertyCategoryId - 1));
+        console.log(propertyCategory);
+        setPropertyCategory({ label: propertyCategory?.label, value: propertyCategoryId });
+    }
+
+    const handleCheckboxesOnchanges = (e, data) => {
+
+        const utilityId = { utilityId: data.value };
+
+        console.log(data)
+        setUtilitiesSelected((prev) => {
+            if (prev.find(x => x.utilityId == utilityId.utilityId) && data.checked) {
+                return prev;
+            }
+
+            if (!prev.find(x => x.utilityId == utilityId.utilityId) && data.checked) {
+                return [...prev, utilityId]
+            }
+
+            if (!data.checked) {
+                return prev.filter(x => x.utilityId === data.value)
+            }
+        }
+        );
+        console.log(utilitiesSelected);
+    }
 
     const initialStateCreate = {
         id: 0,
@@ -38,11 +89,7 @@ export default observer(function PropertyFrom() {
         category: 0,
         transactionType: 0,
         currency: 0,
-        user: {
-            id: 0,
-            username: '',
-            phoneNumber: '',
-        },
+        userId: 0,
         details: {
             livingArea: '',
             floor: '',
@@ -55,15 +102,12 @@ export default observer(function PropertyFrom() {
             landType: 0
         },
         address: {
+            id: 0,
             street: '',
             houseNumber: '',
-            localityName: '',
-            localityRegion: '',
-            districtName: '',
+            localityId: 0
         },
-        utilities: [{
-            utilityId: 0
-        }],
+        utilities: [],
         photos: [{
             url: '',
             title: ''
@@ -73,13 +117,20 @@ export default observer(function PropertyFrom() {
     const initialState: Property = id ? selectedProperty : initialStateCreate;
 
 
-    const validationSchema = Yup.object({
-        title: Yup.string().required('Property title is required!'),
-        description: Yup.string().required('Property description is required!'),
-        currency: Yup.string().required(),
-    })
+    // const validationSchema = Yup.object({
+    //     title: Yup.string().required('Property title is required!'),
+    //     description: Yup.string().required('Property description is required!'),
+    //     currency: Yup.string().required(),
+    // })
 
     const [property, setProperty] = useState<Property>(initialState);
+
+    useEffect(() => {
+        if (propertyCategory) {
+            loadUtilities(propertyCategory.value);
+            setUtilitiesSelected([]);
+        }
+    }, [propertyCategory]);
 
     // useEffect(() => {
     //     if (id) loadSelectedProperty(id).then((property) => setProperty(property!))
@@ -87,14 +138,14 @@ export default observer(function PropertyFrom() {
 
     const handleSubmit = async (property: Property) => {
         console.log(property);
-        const currencyId = currencyOptions[property.currency.currencyId]
+        console.log(utilitiesSelected)
 
         const submitingProperty: CreateProperty = {
             id: property.id,
             title: property.title,
             description: property.description,
             price: Number(property.price),
-            category: Number(property.category),
+            category: 2,//propertyCategory.value!,
             transactionType: Number(property.transactionType),
             currencyId: Number(property.currency),
             userId: 3,
@@ -112,13 +163,9 @@ export default observer(function PropertyFrom() {
             address: {
                 street: property.address.street,
                 houseNumber: property.address.houseNumber,
-                localityName: property.address.localityName,
-                localityRegion: property.address.localityRegion,
-                districtName: property.address.districtName,
+                localityId: locality?.id,
             },
-            utilities: [{
-                utilityId: 1
-            }],
+            utilities: [...utilitiesSelected],
             photos: [{
                 url: property.photos[0].url,
                 title: 'front view'
@@ -126,6 +173,7 @@ export default observer(function PropertyFrom() {
         };
 
         console.log(submitingProperty);
+
         if (id) {
             //submitingProperty.currencyId = currencyId;
             await updateProperty(submitingProperty);
@@ -133,11 +181,12 @@ export default observer(function PropertyFrom() {
         }
         else {
             await createProperty(submitingProperty);
-            if (selectedProperty) navigate(`/Properties/${selectedProperty?.id}`);
+            navigate(`/Properties/`);
         }
     }
 
     if (loading) return <LoadingComponent />
+
     return (
         <Grid columns={6} stackable textAlign='center'>
             <Segment clearing >
@@ -157,8 +206,28 @@ export default observer(function PropertyFrom() {
                                 <MySelectInput label='Currency' name='currency' options={currencyOptions} placeholder='Currency' width='2' default=" " />
                             </FormGroup>
                             <FormGroup >
-                                <MySelectInput label='Trabsaction Type' name='transactionType' options={transactionTypeOptions} placeholder='Transaction Type' width='4' />
-                                <MySelectInput label='Property Category' name='category' options={propertyCategoryOptions} placeholder='Property Category' width='4' />
+                                <MySelectInput label='Trabsaction Type' name='transactionType' options={transactionTypeOptions}
+                                    placeholder='Transaction Type' width='4' />
+                                <FormField width={4} >
+                                    <label htmlFor='category'>Property Category</label>
+                                    <Field as="select"
+                                        id='category'
+                                        name='category'
+                                        value={propertyCategory?.label}
+                                        placeholder='Select District'
+                                        default={null}
+                                        onChange={(e) => handlePropertyCategoryChange(e)}
+                                    >
+                                        {propertyCategoryOptions.map(option => {
+                                            return (
+                                                <option key={option.label} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            )
+                                        })}
+                                    </Field>
+                                    <ErrorMessage name='district' />
+                                </FormField>
                                 <MySelectInput label='Author Type' name='details.authorType' options={authorTypeOptions} placeholder='Author Type' width='4' />
                             </FormGroup>
                             <h3>Property details</h3>
@@ -170,7 +239,6 @@ export default observer(function PropertyFrom() {
                                 <MytextInput label='Number of rooms' placeholder='Enter the number of rooms' name='details.roomNumber' width='4' />
                             </FormGroup>
                             <FormGroup>
-
                                 <MySelectInput label='Property State' name='details.state' options={propertyStateOptions} placeholder='Property state' width='5' />
                                 <MySelectInput label='Building Type' name='details.buildingType' options={buildingTypeOptions} placeholder='Building type' width='5' />
                             </FormGroup>
@@ -178,20 +246,61 @@ export default observer(function PropertyFrom() {
                                 <MySelectInput label='Parking Type' name='details.parkingType' options={parkingTypeOptions} placeholder='Parking type' width='5' />
                                 <MySelectInput label='Land Type' name='details.landType' options={landTypeOptions} placeholder='Land type' width='5' />
                             </FormGroup>
-
                             <MytextInput label='Photo' name='photos[0].url' placeholder="Photo URL" width='12' />
-
                             <h3>Address</h3>
                             <hr></hr>
                             <FormGroup>
                                 <MytextInput label='Street' name='address.street' placeholder='Street' width='5' />
                                 <MytextInput label='House nr.' name='address.houseNumber' placeholder='House nr.' width='3' />
-                                <MytextInput label='Locality' name='address.localityName' placeholder='Locality' width='5' />
+                                <MytextInput label='Region' name='address.localityRegion' placeholder='Region' width='5' />
                             </FormGroup>
                             <FormGroup>
-                                <MytextInput label='Region' name='address.localityRegion' placeholder='Region' width='5' />
-                                <MytextInput label='District' name='address.districtName' placeholder='District' width='5' />
+                                <FormField width={5} >
+                                    <label htmlFor='district'>Districts</label>
+                                    <Field as="select"
+                                        id='district'
+                                        name='address.districtName'
+                                        placeholder='Select District'
+                                        default={null}
+                                        onChange={(e) => handleDistrcitChange(e)}
+                                        value={district?.name}>
+                                        {districts.map(option => {
+                                            return (
+                                                <option key={option.id} value={option.name}>
+                                                    {option.name}
+                                                </option>
+                                            )
+                                        })}
+                                    </Field>
+                                    <ErrorMessage name='district' />
+                                </FormField>
+                                {localities.length > 0 && district && (
+                                    <FormField width={5} >
+                                        <label htmlFor='locality'>Locality</label>
+                                        <Field as="select"
+                                            id='locality'
+                                            // name='address.localityId'
+                                            placeholder='Select Locality'
+                                            value={locality?.name}
+                                            default={null}
+                                            onChange={(e) => handleLocalityChange(e)}>
+                                            {localities.map(option => {
+                                                return (
+                                                    <option key={option.id} value={option.name}>
+                                                        {option.name}
+                                                    </option>
+                                                )
+                                            })}
+                                        </Field>
+                                        <ErrorMessage name='locality' />
+                                    </FormField>
+                                )}
                             </FormGroup>
+                            <h3>Utilities</h3>
+                            <hr></hr>
+                            {utilities.map(utility =>
+                                <FormCheckbox label={utility.name} onChange={(e, data) => handleCheckboxesOnchanges(e, data)} value={utility.id} />
+                            )}
                             <Button disabled={isSubmitting} floated="right" type='submit' content='Submit' color="olive" />
                             <Button floated="right" type='button' content='Cancel' />
                         </Form>

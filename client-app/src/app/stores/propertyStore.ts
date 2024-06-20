@@ -6,6 +6,9 @@ import axios from "axios";
 import { GetUserFavorites } from "../models/getUserFavorite";
 import { AddUserFavoritesPayload } from "../models/addUserFavoritesPayload";
 import { CreateProperty } from "../models/createProperty";
+import { getUtility } from "../models/getUtility";
+import { Locality } from "../models/locality";
+import { District } from "../models/district";
 
 
 export default class PropertyStore {
@@ -16,7 +19,10 @@ export default class PropertyStore {
     loadingInitial = false;
     yourProperties: Properties[] = [];
     isSubmitting = false;
-
+    filteredPropertiesByCategory: Properties[] = this.properties;
+    localities: Locality[] = [];
+    utilities: getUtility[] = [];
+    districts: District[] = [];
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -25,6 +31,8 @@ export default class PropertyStore {
     loadProperties = async () => {
         this.setLoadingInitial(true);
         try {
+            const token = localStorage.getItem("accessToken");
+            axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` }
             const properties = await agent.Properties.list();
             this.setProperties(properties);
             this.setLoadingInitial(false);
@@ -41,6 +49,21 @@ export default class PropertyStore {
             const yourProperties = properties.filter(property => property.userId == 1);
             this.setYourProperties(yourProperties);
             this.setLoading(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoading(false);
+        }
+    }
+
+    loadFilteredPropertiesByCategory = async (id: string | number | undefined) => {
+        this.setLoading(true);
+        try {
+            const filteredPropertiesByCategory = await agent.Properties.filter(id);
+            runInAction(() => {
+                this.setFilteredPropertiesByCategory(filteredPropertiesByCategory);
+                this.setLoading(false);
+            })
+
         } catch (error) {
             console.log(error);
             this.setLoading(false);
@@ -181,6 +204,60 @@ export default class PropertyStore {
         }
     }
 
+    loadLocalities = async (id: number) => {
+        this.setLoading(true);
+        try {
+            const localities: Locality[] = await agent.Localities.list(id);
+            runInAction(() => {
+                this.setLocalities(localities);
+            })
+            this.setLoading(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoading(false);
+        }
+    }
+
+    loadDistricts = async () => {
+        this.setLoading(true);
+        try {
+            const districts: District[] = await agent.Districts.list();
+            runInAction(() => {
+                this.setDistricts(districts);
+            })
+            this.setLoading(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoading(false);
+        }
+    }
+
+    setDistricts = (districts: District[]) => {
+        this.districts = districts;
+    }
+
+    loadUtilities = async (id: number) => {
+        this.setLoading(true);
+        try {
+            const utilities: getUtility[] = await agent.Utilities.list(id);
+            runInAction(() => {
+                this.setUtilities(utilities);
+            })
+            this.setLoading(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoading(false);
+        }
+    }
+
+    setUtilities = (utilities: getUtility[]) => {
+        this.utilities = utilities;
+    }
+
+    setFilteredPropertiesByCategory = (properties: Properties[]) => {
+        this.filteredPropertiesByCategory = properties;
+    }
+
     setUserFavorites = (favorites: GetUserFavorites[]) => {
         this.userFavorites = favorites;
     }
@@ -195,6 +272,10 @@ export default class PropertyStore {
 
     setYourProperties = (properties: Properties[]) => {
         this.yourProperties = properties;
+    }
+
+    setLocalities = (localities: Locality[]) => {
+        this.localities = localities;
     }
 
     setLoadingInitial = (state: boolean) => {

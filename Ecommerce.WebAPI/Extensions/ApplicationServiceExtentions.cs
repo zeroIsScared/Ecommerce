@@ -60,9 +60,7 @@ namespace Ecommerce.WebAPI.Extensions
             services.AddDbContext<EcommerceDBContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("Default"));
-            });
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<EcommerceDBContext>();
+            });           
             services.AddAuthorization();
             services.AddTransient<IRepository<Property>, EFRepository<Property>>();
             services.AddTransient<IRepository<User>, EFRepository<User>>();

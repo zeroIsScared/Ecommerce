@@ -4,6 +4,7 @@ using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Application.Properties.Queries;
 using Ecommerce.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.WebAPI.Controllers
@@ -14,7 +15,7 @@ namespace Ecommerce.WebAPI.Controllers
         public PropertiesController( IMediator mediator) : base( mediator)
         {
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetPropreties()
         {
@@ -29,6 +30,7 @@ namespace Ecommerce.WebAPI.Controllers
             return Ok(result);           
         }
 
+        [Authorize]
         [HttpGet("category/{id}")]
         public async Task<IActionResult> GetPropertiesByCategoryId(int id)
         {

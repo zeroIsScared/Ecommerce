@@ -11,30 +11,43 @@ import FilterProperties from "../../app/layout/components/form/FilterProperties"
 export default observer(function PropertiesList() {
 
     const { propertyStore } = useStore();
-    const { properties, addToUserFavorites, userFavorites } = propertyStore;
+    const { properties, addToUserFavorites, userFavorites,
+        loadFilteredPropertiesByCategory, filteredPropertiesByCategory,
+        setFilteredPropertiesByCategory } = propertyStore;
     const [propertyIdToAdd, setPropertyIdToAdd] = useState<number | undefined>(undefined);
     const [target, setTarget] = useState('');
     const [filter, setFilter] = useState(false);
+    const [categoryId, setCategoryId] = useState<string | number | undefined>(undefined)
 
 
     const handleAddToUserFavorite = (e: SyntheticEvent<HTMLButtonElement>, propertyId: number) => {
         setTarget(e.currentTarget.name);
         setPropertyIdToAdd(propertyId);
     }
-    const handleSubmit = async (propertyCategory: number) => {
+    const handleSubmit = (propertyCategory: string | number) => {
+        console.log(propertyCategory);
+        setCategoryId(propertyCategory)
         setFilter(true);
     }
 
     const handleClearFilter = () => {
         setFilter(false);
+        setCategoryId(undefined);
+        setFilteredPropertiesByCategory(properties);
     }
 
     useEffect(() => {
-        if (!userFavorites.find(x => x.propertyId === propertyIdToAdd)) {
+        if (propertyIdToAdd && !userFavorites.find(x => x.propertyId === propertyIdToAdd)) {
             addToUserFavorites({ userId: 1, propertyId: propertyIdToAdd });
             setTarget('');
         }
     }, [propertyIdToAdd, addToUserFavorites, userFavorites]);
+
+    useEffect(() => {
+        if (categoryId) {
+            loadFilteredPropertiesByCategory(categoryId);
+        }
+    }, [filter, categoryId, loadFilteredPropertiesByCategory]);
 
     return (
         <Segment>
@@ -45,8 +58,10 @@ export default observer(function PropertiesList() {
                 filter={filter}
                 handleClearFilter={handleClearFilter} />
             <Segment>
+                {(filteredPropertiesByCategory.length == 0 && (<h2 style={{ paddingBottom: '0.8em' }}>
+                    No properties were loaded</h2>))}
                 <Card.Group divided>
-                    {properties.map((property) => (
+                    {filteredPropertiesByCategory.map((property) => (
                         <PropertiesCard
                             property={property}
                             buttonsStyle={''}>

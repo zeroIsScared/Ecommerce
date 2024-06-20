@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Ecommerce.Infrastructure
 {
-    public class EcommerceDBContext : IdentityDbContext<ApplicationUser>
+    public class EcommerceDBContext : DbContext
     {       
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Currency> Currencies { get; set; } = default!;       

@@ -22,10 +22,6 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
                 .IsRequired()
                 .HasColumnType("decimal");
 
-            /*builder.HasOne(s => s.Currency)
-                .WithMany(g => g.Properties)
-                .HasForeignKey(s => s.CurrencyId);*/
-
             builder.HasOne(s => s.User)
                 .WithMany(g => g.Properties)
                 .HasForeignKey(s => s.UserId);

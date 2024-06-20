@@ -22,6 +22,7 @@ namespace Ecommerce.Application.Properties.Commands
             public CommandValidator()
             {
                 RuleFor(x => x.Title).MaximumLength(50);
+                RuleFor(x => x.Description).
             }
         }
 

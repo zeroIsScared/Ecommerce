@@ -66,9 +66,7 @@ export default observer(function UserFavoritesList() {
                                 onClick={handleDeleteUserFavorite}
                                 id={property.id}
                             />
-
                         </PropertiesCard>
-
                     ))}
                 </Card.Group>
             </Segment>
