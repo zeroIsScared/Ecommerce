@@ -4,6 +4,7 @@ using AutoMapper;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Users.Dtos;
 using Ecommerce.Domain.Entities;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -14,6 +15,16 @@ namespace Ecommerce.Application.Users.Commands
         public class Command : IRequest<UserDto>
         {
             public required UserDto User { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<UserDto>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Id).NotEmpty().GreaterThan(0);
+                RuleFor(x => x.Username).NotEmpty().MaximumLength(50);
+                RuleFor(x => x.PhoneNumber).NotEmpty().MaximumLength(30);
+            }
         }
 
         public class Handler : IRequestHandler<Command, UserDto>

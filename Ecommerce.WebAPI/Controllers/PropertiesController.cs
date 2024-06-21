@@ -30,7 +30,7 @@ namespace Ecommerce.WebAPI.Controllers
             return Ok(result);           
         }
 
-        [Authorize]
+      
         [HttpGet("category/{id}")]
         public async Task<IActionResult> GetPropertiesByCategoryId(int id)
         {

@@ -6,6 +6,7 @@ using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Properties.Dtos;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Enums;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

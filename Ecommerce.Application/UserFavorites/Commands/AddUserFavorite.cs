@@ -13,6 +13,8 @@ namespace Ecommerce.Application.UserFavorites.Commands
            public long PropertyId { get; set; }
         }
 
+
+
         public class Handler : IRequestHandler<Command>
         {
             private readonly IRepository<User> _userRepository;

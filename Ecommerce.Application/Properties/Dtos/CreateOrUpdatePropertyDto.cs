@@ -1,7 +1,5 @@
 ﻿
 
-using Ecommerce.Application.Users.Dtos;
-using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Enums;
 
 namespace Ecommerce.Application.Properties.Dtos

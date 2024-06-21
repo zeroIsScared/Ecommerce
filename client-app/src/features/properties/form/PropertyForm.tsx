@@ -199,7 +199,7 @@ export default observer(function PropertyFrom() {
                         <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                             <h2>Property information</h2>
                             <hr></hr>
-                            <MytextInput label='Title' name='title' placeholder='title' width='12' />
+                            <MytextInput label='Title' name='title' placeholder='Title' width='12' />
                             <MyTextArea rows={3} placeholder='Description' name='description' width='16' />
                             <FormGroup >
                                 <MytextInput label='Price' name='price' placeholder='Price' width='4' inline={true} />
@@ -215,7 +215,7 @@ export default observer(function PropertyFrom() {
                                         name='category'
                                         value={propertyCategory?.label}
                                         placeholder='Select District'
-                                        default={null}
+                                        default='select category'
                                         onChange={(e) => handlePropertyCategoryChange(e)}
                                     >
                                         {propertyCategoryOptions.map(option => {

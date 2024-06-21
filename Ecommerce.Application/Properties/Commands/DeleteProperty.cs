@@ -15,6 +15,8 @@ namespace Ecommerce.Application.Properties.Commands
             public required long Id { get; set; }
         }
 
+
+
         public class Handler : IRequestHandler<Command>
         {
             private readonly IRepository<Property> _repository;
