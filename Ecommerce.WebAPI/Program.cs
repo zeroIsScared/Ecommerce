@@ -1,13 +1,16 @@
+using Ecommerce.Application.ConfigurationModels;
 using Ecommerce.WebAPI.Extensions;
 using Ecommerce.WebAPI.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.Configure<IntegrationsConfiguration>(builder.Configuration.GetSection("Integrations"));    
 builder.Services.AddApplicationServices(builder.Configuration);
-//builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

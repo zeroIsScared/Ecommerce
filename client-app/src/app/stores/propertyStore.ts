@@ -6,11 +6,6 @@ import axios from "axios";
 import { GetUserFavorites } from "../models/getUserFavorite";
 import { AddUserFavoritesPayload } from "../models/addUserFavoritesPayload";
 import { CreateProperty } from "../models/createProperty";
-import { getUtility } from "../models/getUtility";
-import { Locality } from "../models/locality";
-import { District } from "../models/district";
-
-
 export default class PropertyStore {
     properties: Properties[] = [];
     selectedProperty: Property | undefined = undefined;
@@ -20,9 +15,7 @@ export default class PropertyStore {
     yourProperties: Properties[] = [];
     isSubmitting = false;
     filteredPropertiesByCategory: Properties[] = this.properties;
-    localities: Locality[] = [];
-    utilities: getUtility[] = [];
-    districts: District[] = [];
+    newPropertyCategory: { label: string | undefined, value: number } | undefined;
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -204,54 +197,8 @@ export default class PropertyStore {
         }
     }
 
-    loadLocalities = async (id: number) => {
-        this.setLoading(true);
-        try {
-            const localities: Locality[] = await agent.Localities.list(id);
-            runInAction(() => {
-                this.setLocalities(localities);
-            })
-            this.setLoading(false);
-        } catch (error) {
-            console.log(error);
-            this.setLoading(false);
-        }
-    }
-
-    loadDistricts = async () => {
-        this.setLoading(true);
-        try {
-            const districts: District[] = await agent.Districts.list();
-            runInAction(() => {
-                this.setDistricts(districts);
-            })
-            this.setLoading(false);
-        } catch (error) {
-            console.log(error);
-            this.setLoading(false);
-        }
-    }
-
-    setDistricts = (districts: District[]) => {
-        this.districts = districts;
-    }
-
-    loadUtilities = async (id: number) => {
-        this.setLoading(true);
-        try {
-            const utilities: getUtility[] = await agent.Utilities.list(id);
-            runInAction(() => {
-                this.setUtilities(utilities);
-            })
-            this.setLoading(false);
-        } catch (error) {
-            console.log(error);
-            this.setLoading(false);
-        }
-    }
-
-    setUtilities = (utilities: getUtility[]) => {
-        this.utilities = utilities;
+    setNewPropertyCategory = (propertyCategory: { label: string | undefined, value: number } | undefined) => {
+        this.newPropertyCategory = propertyCategory;
     }
 
     setFilteredPropertiesByCategory = (properties: Properties[]) => {
@@ -274,10 +221,6 @@ export default class PropertyStore {
         this.yourProperties = properties;
     }
 
-    setLocalities = (localities: Locality[]) => {
-        this.localities = localities;
-    }
-
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
     }
@@ -285,6 +228,5 @@ export default class PropertyStore {
     setLoading = (state: boolean) => {
         this.loading = state;
     }
-
 }
 

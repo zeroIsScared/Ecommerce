@@ -18,8 +18,7 @@ namespace Ecommerce.Application.Properties.Commands
         public class CommandValidator : AbstractValidator<CreateOrUpdatePropertyDto>
         {
             public CommandValidator()
-            {
-                RuleFor(x => x.Id).NotEmpty().GreaterThan(0);
+            {               
                 RuleFor(x => x.Title).NotEmpty().MaximumLength(50);
                 RuleFor(x => x.Description).MaximumLength(500);
                 RuleFor(x => x.Category).IsInEnum();

@@ -14,6 +14,7 @@ interface Props {
 export default function FilterProperties({ handleSubmit, filter, handleClearFilter }: Props) {
     const { propertyStore } = useStore();
     const { loading } = propertyStore;
+
     return (
         <Formik
             enableReinitialize

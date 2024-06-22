@@ -9,6 +9,7 @@ import { AuthorType } from "../../../app/enums/authorType";
 import { BuildingType } from "../../../app/enums/buildingType";
 import { ParkingType } from "../../../app/enums/parkingType";
 import { PropertyState } from "../../../app/enums/propertyState";
+import MapComponent from "./Map";
 
 interface ImageArray {
     original: string,
@@ -53,7 +54,6 @@ export default observer(function PropertiesDetails() {
             thumbnail: "../../../../public/assets/4I78kU.jpg",
         },
     ]
-
 
     if (loading) return <LoadingComponent content='Loading property details' />
     if (selectedProperty == undefined) return <h2>The property was not found!</h2>
@@ -113,6 +113,7 @@ export default observer(function PropertiesDetails() {
                             <Divider vertical></Divider>
                         </Segment>
                     </CardContent>
+                    <MapComponent />
                     <Card.Content extra >
                         <Button as={Link} to={'/'} standard color='grey' content='Back' />
                         {!isFavorite &&

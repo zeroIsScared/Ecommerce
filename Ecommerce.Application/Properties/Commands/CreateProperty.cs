@@ -2,10 +2,12 @@
 using AutoMapper;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Properties.Dtos;
+using Ecommerce.Application.Services;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Enums;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 
@@ -42,19 +44,38 @@ namespace Ecommerce.Application.Properties.Commands
         public class Handler : IRequestHandler<Command, CreateOrUpdatePropertyDto>
         {
             private readonly IRepository<Property> _repository;
+            private readonly IRepository<Locality> _localityRepository;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
+            private readonly IDirectionService _directionservice;
 
-            public Handler(IRepository<Property> repository, IMapper mapper, ILogger<Handler> logger)
+            public Handler(IRepository<Property> repository, IRepository<Locality> localityRepository, IMapper mapper, ILogger<Handler> logger, IDirectionService directionservice)
             {
                 _repository = repository;
+                _localityRepository = localityRepository;
                 _mapper = mapper;
                 _logger = logger;
+                _directionservice = directionservice;
             }
 
             public async Task<CreateOrUpdatePropertyDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var realEstate = _mapper.Map<Property>(request.RealEstate);              
+                var realEstate = _mapper.Map<Property>(request.RealEstate);
+
+                var locality = _localityRepository.Read()
+                    .Include(x => x.District)
+                    .Where(x => x.Id == realEstate.Address.LocalityId)
+                    .First();                   
+
+
+               
+                var address = $"{realEstate.Address.Street} {realEstate.Address.HouseNumber} {locality.Name} {locality.District.Name}";
+
+                var coordinates = await _directionservice.GeocodeAddressAsync(address);
+
+                realEstate.Address.Longitude = coordinates.First().Geometry.Location.Longitude.ToString();
+
+                realEstate.Address.Latitude = coordinates.First().Geometry.Location.Latitude.ToString();
 
                 var property =  await _repository.AddAsync(realEstate, cancellationToken);
 

@@ -2,6 +2,7 @@
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Properties.Commands;
 using Ecommerce.Application.Properties.Queries;
+using Ecommerce.Application.Services;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastracture;
 using Ecommerce.Infrastructure;
@@ -71,6 +72,7 @@ namespace Ecommerce.WebAPI.Extensions
             services.AddTransient<IRepository<Locality>, EFRepository<Locality>>();
             services.AddTransient<IRepository<District>, EFRepository<District>>();
             services.AddTransient<IUnitOfWork,UnitOfWork>();
+            services.AddScoped<IDirectionService, DirectionService>();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateProperty>();

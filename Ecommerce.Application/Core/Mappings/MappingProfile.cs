@@ -28,7 +28,8 @@ namespace Ecommerce.Application.Core.Mappings
             CreateMap<Address, GetAddressDto>()
                 .ForMember(dst => dst.LocalityName, y => y.MapFrom(src => src.Locality.Name))
                 .ForMember(dst => dst.DistrictName, y => y.MapFrom(src => src.Locality.District.Name))
-                .ForMember(dst => dst.LocalityRegion, y => y.MapFrom(src => src.Locality.Region));                
+                .ForMember(dst => dst.LocalityRegion, y => y.MapFrom(src => src.Locality.Region)); 
+            
             CreateMap<Property, CreateOrUpdatePropertyDto>().ReverseMap();
             CreateMap<Property, FavoritePropertyDto>().ReverseMap();
             CreateMap<AddAddressDto, Address>()

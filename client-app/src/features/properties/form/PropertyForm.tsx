@@ -19,45 +19,51 @@ import { parkingTypeOptions } from "../../../app/layout/components/options/parki
 import { landTypeOptions } from "../../../app/layout/components/options/landTypeOptions";
 import { currencyOptions } from "../../../app/layout/components/options/currencyOptions";
 import { CreateProperty } from "../../../app/models/createProperty";
+import SelectCategory from "./SelectCategory";
+
 
 export default observer(function PropertyFrom() {
-    const { propertyStore } = useStore();
-    const { loading, selectedProperty, updateProperty, createProperty,
-        loadDistricts, loadLocalities, loadUtilities, localities,
-        utilities, districts } = propertyStore;
+    const { propertyStore, districtStore, localityStore, utilitiesStore } = useStore();
+    const { loading, selectedProperty, updateProperty, createProperty, newPropertyCategory } = propertyStore;
+    const { loadDistricts, districts, selectedDistrict, setSelectedDistrict } = districtStore;
+    const { loadLocalities, localities, selectedLocality, setSelectedLocality } = localityStore;
+    const { utilities } = utilitiesStore;
     const { id } = useParams();
     const navigate = useNavigate();
-    const [district, setDistrict] = useState<{ id: number, name: string } | undefined>(undefined);
-    const [locality, setLocality] = useState<{ id: number, name: string } | undefined>(undefined);
-    const [propertyCategory, setPropertyCategory] = useState<{ label: string | undefined, value: number } | undefined>(undefined);
+    //const [district, setDistrict] = useState<{ id: number, name: string } | undefined>(undefined);
+    //const [locality, setLocality] = useState<{ id: number, name: string } | undefined>(undefined);
+    //const [propertyCategory, setPropertyCategory] = useState<{ label: string | undefined, value: number } | undefined>(undefined);
     const [utilitiesSelected, setUtilitiesSelected] = useState<{ utilityId: number }[]>([]);
+
 
     useEffect(() => {
         loadDistricts();
     }, [loadDistricts]);
 
     useEffect(() => {
-        if (district?.id) {
-            loadLocalities(district.id);
+        if (selectedDistrict?.id) {
+            loadLocalities(selectedDistrict.id);
         }
-    }, [setDistrict, district]);
+    }, [selectedDistrict]);
+
+
 
     const handleDistrcitChange = (e) => {
         const district = districts.find(x => x.name == e.target.value);
-        setDistrict(district);
+        setSelectedDistrict(district);
     }
 
     const handleLocalityChange = (e) => {
         const locality = localities.find(x => x.name == e.target.value);
-        setLocality(locality);
+        setSelectedLocality(locality);
     }
 
-    const handlePropertyCategoryChange = (e) => {
-        const propertyCategoryId = (Number(e.target.value) + 1);
-        const propertyCategory = propertyCategoryOptions.find(x => x.value === (propertyCategoryId - 1));
-        console.log(propertyCategory);
-        setPropertyCategory({ label: propertyCategory?.label, value: propertyCategoryId });
-    }
+    // const handlePropertyCategoryChange = (e) => {
+    //     const propertyCategoryId = (Number(e.target.value) + 1);
+    //     const propertyCategory = propertyCategoryOptions.find(x => x.value === (propertyCategoryId - 1));
+    //     console.log(propertyCategory);
+    //     setPropertyCategory({ label: propertyCategory?.label, value: propertyCategoryId });
+    // }
 
     const handleCheckboxesOnchanges = (e, data) => {
 
@@ -125,12 +131,7 @@ export default observer(function PropertyFrom() {
 
     const [property, setProperty] = useState<Property>(initialState);
 
-    useEffect(() => {
-        if (propertyCategory) {
-            loadUtilities(propertyCategory.value);
-            setUtilitiesSelected([]);
-        }
-    }, [propertyCategory]);
+
 
     // useEffect(() => {
     //     if (id) loadSelectedProperty(id).then((property) => setProperty(property!))
@@ -145,10 +146,10 @@ export default observer(function PropertyFrom() {
             title: property.title,
             description: property.description,
             price: Number(property.price),
-            category: 2,//propertyCategory.value!,
+            category: newPropertyCategory.value!,
             transactionType: Number(property.transactionType),
             currencyId: Number(property.currency),
-            userId: 3,
+            userId: 1,
             details: {
                 livingArea: property.details.livingArea,
                 floor: property.details.floor,
@@ -163,7 +164,9 @@ export default observer(function PropertyFrom() {
             address: {
                 street: property.address.street,
                 houseNumber: property.address.houseNumber,
-                localityId: locality?.id,
+                localityId: selectedLocality?.id,
+                latitude: "",
+                longitude: ""
             },
             utilities: [...utilitiesSelected],
             photos: [{
@@ -190,6 +193,7 @@ export default observer(function PropertyFrom() {
     return (
         <Grid columns={6} stackable textAlign='center'>
             <Segment clearing >
+
                 <Formik
                     //validationSchema={validationSchema}
                     enableReinitialize
@@ -208,26 +212,12 @@ export default observer(function PropertyFrom() {
                             <FormGroup >
                                 <MySelectInput label='Trabsaction Type' name='transactionType' options={transactionTypeOptions}
                                     placeholder='Transaction Type' width='4' />
-                                <FormField width={4} >
-                                    <label htmlFor='category'>Property Category</label>
-                                    <Field as="select"
-                                        id='category'
-                                        name='category'
-                                        value={propertyCategory?.label}
-                                        placeholder='Select District'
-                                        default='select category'
-                                        onChange={(e) => handlePropertyCategoryChange(e)}
-                                    >
-                                        {propertyCategoryOptions.map(option => {
-                                            return (
-                                                <option key={option.label} value={option.value}>
-                                                    {option.label}
-                                                </option>
-                                            )
-                                        })}
-                                    </Field>
-                                    <ErrorMessage name='district' />
-                                </FormField>
+                                <SelectCategory value={newPropertyCategory?.label}
+                                //  propertyCategory={propertyCategory}
+                                //     handleChangePropertyCategory={setPropertyCategory}
+                                // hasChanged={hasChanged}
+                                // handleChange={ }
+                                />
                                 <MySelectInput label='Author Type' name='details.authorType' options={authorTypeOptions} placeholder='Author Type' width='4' />
                             </FormGroup>
                             <h3>Property details</h3>
@@ -263,7 +253,7 @@ export default observer(function PropertyFrom() {
                                         placeholder='Select District'
                                         default={null}
                                         onChange={(e) => handleDistrcitChange(e)}
-                                        value={district?.name}>
+                                        value={selectedDistrict?.name}>
                                         {districts.map(option => {
                                             return (
                                                 <option key={option.id} value={option.name}>
@@ -274,14 +264,14 @@ export default observer(function PropertyFrom() {
                                     </Field>
                                     <ErrorMessage name='district' />
                                 </FormField>
-                                {localities.length > 0 && district && (
+                                {localities.length > 0 && selectedDistrict && (
                                     <FormField width={5} >
                                         <label htmlFor='locality'>Locality</label>
                                         <Field as="select"
                                             id='locality'
                                             // name='address.localityId'
                                             placeholder='Select Locality'
-                                            value={locality?.name}
+                                            value={selectedLocality?.name}
                                             default={null}
                                             onChange={(e) => handleLocalityChange(e)}>
                                             {localities.map(option => {
@@ -307,6 +297,7 @@ export default observer(function PropertyFrom() {
                     )}
 
                 </Formik>
+
 
             </Segment>
         </Grid>

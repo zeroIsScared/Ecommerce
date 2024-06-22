@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+
 
 namespace Ecommerce.Domain.Entities
 {
@@ -15,5 +12,7 @@ namespace Ecommerce.Domain.Entities
         public ICollection<Property> Properties { get; set; } = default!;
         public long LocalityId { get; set; }
         public Locality Locality { get; set; } = default!;
+        public string Longitude { get; set; } = default!;
+        public string Latitude { get; set; } = default!;
     }
 }

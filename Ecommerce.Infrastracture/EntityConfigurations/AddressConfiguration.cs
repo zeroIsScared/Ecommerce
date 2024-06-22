@@ -21,6 +21,12 @@ namespace Ecommerce.Infrastracture.EntityConfigurations
 
             builder.Property(s => s.HouseNumber)
                 .HasMaxLength(EntityConstants.MaxHouseNumberLength);
+
+            builder.Property(s => s.Longitude)
+                .HasMaxLength(EntityConstants.MaxNameLength);
+
+            builder.Property(s => s.Latitude)
+                .HasMaxLength(EntityConstants.MaxNameLength);
         }
     }
 }
